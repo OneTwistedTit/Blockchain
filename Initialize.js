@@ -1,5 +1,3 @@
-//Initialize Game elements
-
 function StartGame() {
   Game.Start();
   Game.Load(Start_Screen);
