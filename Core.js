@@ -1,7 +1,3 @@
-
-//The speed at which the update function is called
-var GAME_SPEED = 100;
-
 var Game = {
   canvas: document.createElement("canvas"),
   Start: function() {
