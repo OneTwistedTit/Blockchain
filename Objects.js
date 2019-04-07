@@ -40,66 +40,81 @@ Vector2 = function(x, y){
 }
 
 Rectangle = function(x, y, width, height, color){
-	if(x == null || y == null || width == null || height == null){
-		var err = "Missing parameters for Rectangle:";
-		if(x == null) err += "'x' ";
-		if(y == null) err += "'y' ";
-		if(width == null) err += "'width' ";
-		if(height == null) err += "'height'";
-		throw new Error(err);
+	this.x = x;
+	this.y = y;
+	this.width = width;
+	this.height = height;
+	if(color == null || !color){
+		this.color = "rgba(0, 0, 0, 0";
+	} else {
+		this.color = color;
 	}
-  this.width = width;
-  this.height = height;
-  this.x = x;
-  this.y = y;
-  this.Contains = function(x, y) {
-    if (x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  this.Intersects = function(other){
-    if (this.Contains(other.x, other.y) || this.Contains(other.x + other.width, other.y)
-     || this.Contains(other.x, other.y + other.height) ||
-     this.Contains(other.x + other.width,other.y + other.height)){
-       return true;
-     }
-     else if (other.Contains(this.x, this.y) || other.Contains(this.x + this.width, this.y)
-      || other.Contains(this.x, this.y + this.height) ||
-      other.Contains(this.x + this.width, this.y + this.height)) {
-        return true;
-      } else {
-        return false;
-      }
-  }
-  this.Draw = function(){
-  	Game.context.fillStyle = color;
-  	Game.context.fillRect(this.x, this.y, this.width, this.height);
-  }
+	this.Contains = function(vec2) {
+	    if (vec2.x >= this.x && vec2.x <= this.x + this.width && vec2.y >= this.y && vec2.y <= this.y + this.height) {
+	    	return true;
+	    } else {
+	      	return false;
+	    }
+  	}
+	this.Intersects = function(other){
+	    if (this.Contains(other.x, other.y) || this.Contains(other.x + other.width, other.y)
+	    || this.Contains(other.x, other.y + other.height) ||
+	    this.Contains(other.x + other.width,other.y + other.height)){
+	    	return true;
+	    } else if (other.Contains(this.x, this.y) || other.Contains(this.x + this.width, this.y)
+	      || other.Contains(this.x, this.y + this.height) ||
+	      other.Contains(this.x + this.width, this.y + this.height)) {
+	   		return true;
+	    } else {
+	    	return false;
+	    }
+  	}
+  	this.Draw = function(){
+	  	Game.context.fillStyle = color;
+	  	Game.context.fillRect(this.x, this.y, this.width, this.height);
+  	}
 }
 
-Text = function(x, y, text, font, color){
-	if (x == null || y == null || text == null || font == null){
-		var err = "Missing parameters for Text: ";
-		if (x == null) err += "'x' ";
-		if (y == null) err += "'y' ";
-		if (text == null) err += "'text '";
-		if (font == null) err += "'font'";
-		throw new Error(err);
-	}
+Text = function(x, y, text, font, textAlign, color){
 	this.x = x;
 	this.y = y;
 	this.value = text;
 	if(color == null || !color){
-		this.color = "rgba(255, 255, 255, 1)";
+		this.color = "rgba(0, 0, 0, 1)";
 	} else {
 		this.color = color;
 	}
 	this.Draw = function(){
 		Game.context.font = font;
-		Game.context.textAlign = "center";
+		if (textAlign == null || !textAlign){
+			Game.context.textAlign = "center";
+		} else {
+			Game.context.textAlign = textAlign;
+		}
 		Game.context.fillStyle = this.color;
-		Game.context.fillText(this.value, this.x, this.y + parseInt(font));
+		Game.context.fillText(this.value, this.x, this.y);
+	}
+}
+Circle = function(x, y, radius, color){
+	this.radius = radius;
+	this.x = x + this.radius;
+	this.y = y + this.radius;
+	this.color = color;
+	this.Draw = function(){
+		Game.context.fillStyle = color;
+		Game.context.beginPath();
+		Game.context.arc(this.x, this.y, radius, 0, 2 * Math.PI);
+		Game.context.fill();
+	}
+	this.Contains = function(vec2){
+		return (((vec2.x - this.x)**2 + (vec2.y - this.y)**2) <= (this.radius)**2);
+	}
+	
+}
+Image = function(x, y, width, height, src){
+	this.rect = new Rectangle(x, y, width, height);
+	this.src = src;
+	this.Draw = function(){
+		Game.context.drawImage(this.src, this.rect.x, this.rect.y, this.rect.width, this.rect.height);
 	}
 }

@@ -10,6 +10,8 @@ var Game = {
     this.frame = 0;
     this.Elements = {}
     this.ElementUpdate = null;
+    this.music = new Audio(null);
+    this.music.loop = true;
     //Creates a boolean array for each key
     //Allows for subcardinal movement
     window.addEventListener('keydown', function(e) {
@@ -17,19 +19,38 @@ var Game = {
       Game.keys[e.keyCode] = true;
     });
     window.addEventListener('keyup', function(e) {
+
       Game.keys[e.keyCode] = false;
     });
     this.click = new Vector2(null, null);
     Game.canvas.addEventListener('click', function(e){
-      var tmp = Game.canvas.getBoundingClientRect();
-      Game.click.Set(e.clientX - tmp.left, e.clientY - tmp.top);
+      Game.click.Set(e.clientX - Game.canvas.getBoundingClientRect().left, e.clientY - Game.canvas.getBoundingClientRect().top);
     });
+  },
+  PlayAudio: async function(src){
+    try{
+      this.music.src = src;
+      await this.music.play();
+      console.log("Playing: " + src);
+    } catch(err) {
+      throw new Error(err);
+    }
+  },
+  CheckTick: function(ticks) {
+    if ((this.frame / ticks) % 1 == 0) {
+      return true;
+    }
+    return false;
   },
   Clear: function() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
   },
   Stop: function() {
     clearInterval(this.interval);
+    console.log("Game stopped with error code 0");
+  },
+  Resume: function() {
+    this.interval = setInterval(UpdateGame, 20)
   },
   Load: function(map) {
     this.Elements = {}
@@ -43,11 +64,4 @@ var Game = {
     this.ElementUpdate = this.Elements.Update;
     delete this.Elements.Update;
   }
-}
-//Interval function for Game ticks
-function CheckInterval(ticks) {
-  if ((Game.frame / ticks) % 1 == 0) {
-    return true;
-  }
-  return false;
 }
