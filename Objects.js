@@ -1,23 +1,11 @@
 Vector2 = function(x, y){
-	if (x == null || y == null){
-		var err = "Missing parameters for Vector2: ";
-		if(x == null) err += "'x' ";
-		if(y == null) err += "'y'";
-		throw new Error(err);
-	}
 	this.x = x;
 	this.y = y;
 
-	this.prevX = 0;
-	this.prevY = 0;
+	this.prevX = null;
+	this.prevY = null;
 
 	this.Set = function(x, y){
-		if(x == null || y == null){
-			var err = "Missing parameters for Vector2.Set: ";
-			if(x == null) err += "'x' ";
-			if(y == null) err += "'y'";
-			throw new Error(err);
-		}
 		this.prevX = this.x;
 		this.prevY = this.y;
 
@@ -51,7 +39,7 @@ Vector2 = function(x, y){
 	}
 }
 
-Rectangle = function(x, y, width, height){
+Rectangle = function(x, y, width, height, color){
 	if(x == null || y == null || width == null || height == null){
 		var err = "Missing parameters for Rectangle:";
 		if(x == null) err += "'x' ";
@@ -85,8 +73,33 @@ Rectangle = function(x, y, width, height){
         return false;
       }
   }
-  this.Draw = function(ctx, color){
-  	ctx.fillStyle = color;
-  	ctx.fillRect(this.x, this.y, this.width, this.height);
+  this.Draw = function(){
+  	Game.context.fillStyle = color;
+  	Game.context.fillRect(this.x, this.y, this.width, this.height);
   }
+}
+
+Text = function(x, y, text, font, color){
+	if (x == null || y == null || text == null || font == null){
+		var err = "Missing parameters for Text: ";
+		if (x == null) err += "'x' ";
+		if (y == null) err += "'y' ";
+		if (text == null) err += "'text '";
+		if (font == null) err += "'font'";
+		throw new Error(err);
+	}
+	this.x = x;
+	this.y = y;
+	this.value = text;
+	if(color == null || !color){
+		this.color = "rgba(255, 255, 255, 1)";
+	} else {
+		this.color = color;
+	}
+	this.Draw = function(){
+		Game.context.font = font;
+		Game.context.textAlign = "center";
+		Game.context.fillStyle = this.color;
+		Game.context.fillText(this.value, this.x, this.y + parseInt(font));
+	}
 }

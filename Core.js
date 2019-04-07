@@ -6,8 +6,10 @@ var Game = {
     this.context = this.canvas.getContext("2d");
     this.canvas.style = "border-style: solid; border-width: 2px; display: block; margin: auto;"
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-    this.interval = setInterval(UpdateGame, 1);
+    this.interval = setInterval(UpdateGame, 20);
     this.frame = 0;
+    this.Elements = {}
+    this.ElementUpdate = null;
     //Creates a boolean array for each key
     //Allows for subcardinal movement
     window.addEventListener('keydown', function(e) {
@@ -17,12 +19,29 @@ var Game = {
     window.addEventListener('keyup', function(e) {
       Game.keys[e.keyCode] = false;
     });
+    this.click = new Vector2(null, null);
+    Game.canvas.addEventListener('click', function(e){
+      var tmp = Game.canvas.getBoundingClientRect();
+      Game.click.Set(e.clientX - tmp.left, e.clientY - tmp.top);
+    });
   },
   Clear: function() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
   },
   Stop: function() {
     clearInterval(this.interval);
+  },
+  Load: function(map) {
+    this.Elements = {}
+    this.ScreenUpdate = null;
+    var i;
+    for (i in map){
+      this.Elements[i] = map[i];
+    }
+    this.Elements.Start();
+    delete this.Elements.Start;
+    this.ElementUpdate = this.Elements.Update;
+    delete this.Elements.Update;
   }
 }
 //Interval function for Game ticks
