@@ -1,6 +1,6 @@
 function StartGame() {
   Game.Start();
-  Game.Load(Start_Screen);
+  Game.Load(Init_Screen);
 }
 function UpdateGame(){
   Game.Clear();
