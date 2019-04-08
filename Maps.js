@@ -46,6 +46,11 @@ var Game_Selection = {
 				console.log("Moving to TableTennisThumb");
 				Game.Load(TableTennisThumb);
 			}
+			if(Game.Elements["wormIMG"].rect.Contains(Game.click)){
+				Game.click.Set(null, null);
+				console.log("Moving to WormThumb");
+				Game.Load(WormThumb);
+			}
 			if(Game.Elements["backButton"].Contains(Game.click)){
 				Game.click.Set(null, null);
 				console.log("Moving to Start Screen");
@@ -121,7 +126,7 @@ var WormThumb = {
 		console.log("Loaded WormThumb");
 	},
 	Update: function(){
-		/*if(Game.Elements["resetButton"].Contains(Game.click)){
+		if(Game.Elements["resetButton"].Contains(Game.click)){
 			Game.click.Set(null, null);
 			Game.Reset();
 		}
@@ -129,7 +134,7 @@ var WormThumb = {
 			Game.click.Set(null, null);
 			console.log("Moving to Start Screen");
 			Game.Load(Game_Selection);
-		}*/
+		}
 	},
 	"background": new Rectangle(0, 0, 1080, 768, "white"),
 	"border": {
