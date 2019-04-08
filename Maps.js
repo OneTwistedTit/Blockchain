@@ -40,6 +40,11 @@ var Game_Selection = {
 				console.log("Moving to Start Screen");
 				Game.Load(Start_Screen);
 			}
+			if(Game.Elements["tableTennisIMG"].rect.Contains(Game.click)){
+				Game.click.Set(null, null);
+				console.log("Moving to PingPongThumb");
+				Game.Load(TableTennisThumb);
+			}
 		}
 	},
 	"background": new Rectangle(0, 0, 1080, 768, "black"),
@@ -53,12 +58,20 @@ var Game_Selection = {
 	"resetText": new Text(50, 100 - 35, "RESET", "30px Comic Sans MS")
 }
 
-/*var PingPongThumb = {
+var TableTennisThumb = {
 	Start: function(){
 
 	},
 	Update: function(){
-
+		if(Game.Elements["resetButton"].Contains(Game.click)){
+			Game.click.Set(null, null);
+			Game.Reset();
+		}
+		if(Game.Elements["backButton"].Contains(Game.click)){
+			Game.click.Set(null, null);
+			console.log("Moving to Start Screen");
+			Game.Load(Game_Selection);
+		}
 	},
 	"background": new Rectangle(0, 0, 1080, 768, "white"),
 	"table": new Rectangle(200, 134, 680, 500, "rgba(0, 100, 255"),
@@ -85,5 +98,9 @@ var Game_Selection = {
 			Game.context.lineTo(1040, 250)
 			Game.context.stroke();
 		}
-	}
-}*/
+	},
+	"backButton": new Rectangle(780, 0, 315, 75, "cyan"),
+	"backText": new Text(780 + 150, 60, "<- BACK", "60px Comic Sans MS"),
+	"resetButton": new Circle(0, 0, 50, "red"),
+	"resetText": new Text(50, 100 - 35, "RESET", "30px Comic Sans MS")
+}
