@@ -9,8 +9,8 @@ var Game = {
     this.interval = setInterval(UpdateGame, 20);
     this.frame = 0;
     this.Elements = {}
+    this.music = new Audio();
     this.ElementUpdate = null;
-    this.music = new Audio(null);
     this.music.loop = true;
     //Creates a boolean array for each key
     //Allows for subcardinal movement
@@ -49,15 +49,15 @@ var Game = {
   },
   Load: function(map) {
     this.Elements = {}
-    this.ScreenUpdate = null;
     var i;
     for (i in map){
       this.Elements[i] = map[i];
     }
-    this.Elements.Start();
-    delete this.Elements.Start;
     this.ElementUpdate = this.Elements.Update;
     delete this.Elements.Update;
+    this.Elements.Start();
+    delete this.Elements.Start;
+    
   },
   Screenshot: function(){
     var link = document.createElement("a");

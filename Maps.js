@@ -1,7 +1,17 @@
+var Init_Screen = {
+	Start: function(){
+		console.log("Initializing game...");
+		Game.PlayAudio("Sounds/Start_Screen.mp3");
+		Game.Load(Start_Screen);
+	},
+	Update: function(){
+		
+	}
+}
+
 var Start_Screen = {
 	Start: function(){
-		console.log("Game started");
-		Game.PlayAudio("Sounds/Start_Screen.mp3");
+		console.log("Game started!"); 
 	},
 	Update: function(){
 		if(Game.click.x && Game.click.y){
@@ -31,19 +41,19 @@ var Game_Selection = {
 	},
 	Update: function(){
 		if(Game.click.x && Game.click.y){
-			if(Game.Elements["resetButton"].Contains(Game.click)){
+			if(Game.Elements["tableTennisIMG"].rect.Contains(Game.click)){
 				Game.click.Set(null, null);
-				Game.Reset();
+				console.log("Moving to TableTennisThumb");
+				Game.Load(TableTennisThumb);
 			}
 			if(Game.Elements["backButton"].Contains(Game.click)){
 				Game.click.Set(null, null);
 				console.log("Moving to Start Screen");
 				Game.Load(Start_Screen);
 			}
-			if(Game.Elements["tableTennisIMG"].rect.Contains(Game.click)){
+			if(Game.Elements["resetButton"].Contains(Game.click)){
 				Game.click.Set(null, null);
-				console.log("Moving to TableTennisThumb");
-				Game.Load(TableTennisThumb);
+				Game.Reset();
 			}
 		}
 	},
