@@ -60,7 +60,8 @@ var Game_Selection = {
 	"background": new Rectangle(0, 0, 1080, 768, "black"),
 	"tableTennisText": new Text(215, 195, "Table Tennis", "50px Comic Sans MS", null, "white"),
 	"tableTennisIMG": new ImageObj(57, 200, 315, 225, "Images/TableTennisThumb.png"),
-	"wormButton": new Rectangle(382, 200, 315, 225, "white"),
+	"wormText": new Text(540, 195, "Worm", "50px Comic Sans MS", null, "white"),
+	"wormIMG": new ImageObj(382, 200, 315, 225, "Images/WormThumb.png"),
 	"footballButton": new Rectangle(708, 200, 315, 225, "white"),
 	"backButton": new Rectangle(780, 0, 315, 75, "cyan"),
 	"backText": new Text(780 + 150, 60, "<- BACK", "60px Comic Sans MS"),
@@ -138,9 +139,12 @@ var WormThumb = {
 		}
 	},
 	"bottomSegment": new Rectangle(65, 655, 200, 25, "green"),
-	"middleSegment": new Rectangle(65, 455, 25, 200, "green")
-	/*"backButton": new Rectangle(780, 0, 315, 75, "cyan"),
+	"middleSegment": new Rectangle(65, 455, 25, 200, "green"),
+	"topSegment": new Rectangle(65, 430, 250, 25, "green"),
+	"apple": new Rectangle(365, 430, 25, 25, "red"),
+	"length": new Text(540, 105 - 30, "Length: 26", "60px Comic Sans MS"),
+	"backButton": new Rectangle(780, 0, 315, 75, "cyan"),
 	"backText": new Text(780 + 150, 60, "<- BACK", "60px Comic Sans MS"),
 	"resetButton": new Circle(0, 0, 50, "red"),
-	"resetText": new Text(50, 100 - 35, "RESET", "30px Comic Sans MS")*/
+	"resetText": new Text(50, 100 - 35, "RESET", "30px Comic Sans MS")
 }
