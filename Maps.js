@@ -42,7 +42,7 @@ var Game_Selection = {
 			}
 			if(Game.Elements["tableTennisIMG"].rect.Contains(Game.click)){
 				Game.click.Set(null, null);
-				console.log("Moving to PingPongThumb");
+				console.log("Moving to TableTennisThumb");
 				Game.Load(TableTennisThumb);
 			}
 		}
@@ -60,7 +60,7 @@ var Game_Selection = {
 
 var TableTennisThumb = {
 	Start: function(){
-
+		console.log("Loaded TableTennisThumb");
 	},
 	Update: function(){
 		if(Game.Elements["resetButton"].Contains(Game.click)){
@@ -103,4 +103,34 @@ var TableTennisThumb = {
 	"backText": new Text(780 + 150, 60, "<- BACK", "60px Comic Sans MS"),
 	"resetButton": new Circle(0, 0, 50, "red"),
 	"resetText": new Text(50, 100 - 35, "RESET", "30px Comic Sans MS")
+}
+
+var WormThumb = {
+	Start: function(){
+		console.log("Loaded WormThumb");
+	},
+	Update: function(){
+		/*if(Game.Elements["resetButton"].Contains(Game.click)){
+			Game.click.Set(null, null);
+			Game.Reset();
+		}
+		if(Game.Elements["backButton"].Contains(Game.click)){
+			Game.click.Set(null, null);
+			console.log("Moving to Start Screen");
+			Game.Load(Game_Selection);
+		}*/
+	},
+	"background": new Rectangle(0, 0, 1080, 768, "white"),
+	"border": {
+		Draw: function(){
+			Game.context.lineWidth = 5;
+			Game.context.strokeRect(15, 105, 1050, 650);
+		}
+	},
+	"bottomSegment": new Rectangle(65, 655, 200, 25, "green"),
+	"middleSegment": new Rectangle(65, 455, 25, 200, "green")
+	/*"backButton": new Rectangle(780, 0, 315, 75, "cyan"),
+	"backText": new Text(780 + 150, 60, "<- BACK", "60px Comic Sans MS"),
+	"resetButton": new Circle(0, 0, 50, "red"),
+	"resetText": new Text(50, 100 - 35, "RESET", "30px Comic Sans MS")*/
 }
