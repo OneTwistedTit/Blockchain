@@ -111,10 +111,11 @@ Circle = function(x, y, radius, color){
 	}
 	
 }
-Image = function(x, y, width, height, src){
+ImageObj = function(x, y, width, height, src){
 	this.rect = new Rectangle(x, y, width, height);
-	this.src = src;
+	this.image = new Image();
+	this.image.src = src
 	this.Draw = function(){
-		Game.context.drawImage(this.src, this.rect.x, this.rect.y, this.rect.width, this.rect.height);
+		Game.context.drawImage(this.image, this.rect.x, this.rect.y, this.rect.width, this.rect.height);
 	}
 }

@@ -19,7 +19,6 @@ var Game = {
       Game.keys[e.keyCode] = true;
     });
     window.addEventListener('keyup', function(e) {
-
       Game.keys[e.keyCode] = false;
     });
     this.click = new Vector2(null, null);
@@ -45,12 +44,8 @@ var Game = {
   Clear: function() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
   },
-  Stop: function() {
-    clearInterval(this.interval);
-    console.log("Game stopped with error code 0");
-  },
-  Resume: function() {
-    this.interval = setInterval(UpdateGame, 20)
+  Reset: function() {
+    location.reload();
   },
   Load: function(map) {
     this.Elements = {}
@@ -63,5 +58,17 @@ var Game = {
     delete this.Elements.Start;
     this.ElementUpdate = this.Elements.Update;
     delete this.Elements.Update;
+  },
+  Screenshot: function(){
+    var link = document.createElement("a");
+    link.download = "image.png";
+
+    this.canvas.toBlob(function(blob){
+      link.href = URL.createObjectURL(blob);
+      console.log(blob);
+      console.log(link.href);
+    },'image/png');
+
+    link.click();
   }
 }
