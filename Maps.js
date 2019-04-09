@@ -64,10 +64,11 @@ var Game_Selection = {
 	},
 	"background": new Rectangle(0, 0, 1080, 768, "black"),
 	"tableTennisText": new Text(215, 195, "Table Tennis", "50px Comic Sans MS", null, "white"),
-	"tableTennisIMG": new ImageObj(57, 200, 315, 225, "Images/TableTennisThumb.png"),
+	"tableTennisIMG": new ImageObj(57, 200, 315, 225, "Images/Thumbnails/TableTennisThumb.png"),
 	"wormText": new Text(540, 195, "Worm", "50px Comic Sans MS", null, "white"),
-	"wormIMG": new ImageObj(382, 200, 315, 225, "Images/WormThumb.png"),
-	"footballButton": new Rectangle(708, 200, 315, 225, "white"),
+	"wormIMG": new ImageObj(382, 200, 315, 225, "Images/Thumbnails/WormThumb.png"),
+	//"barrelRollerButton": new ImageObj(708, 200, 315, 225, "Images/Thumbnails/BarrelRollerThumb.png"),
+	//"barrelRollerText": new Text
 	"backButton": new Rectangle(780, 0, 315, 75, "cyan"),
 	"backText": new Text(780 + 150, 60, "<- BACK", "60px Comic Sans MS"),
 	"resetButton": new Circle(0, 0, 50, "red"),
@@ -161,12 +162,12 @@ var BarrelRollerThumb = {
 	Update: function(){
 
 	},
-	"background": new ImageObj(0, 0, 1080, 768, "Images/BarrelRollerBG.png"),
+	"background": new ImageObj(0, 0, 1080, 768, "Images/BarrelRoller/BarrelRollerBG.png"),
 	"floor": new Rectangle(0, 512, 1080, 5, "black"),
-	"barrel": new ImageObj(110, 452, 60, 60, "Images/BarrelRollerPlayer.png"),
-	"barrelRoller": new ImageObj(50, 452, 60, 60, "Images/BarrelRollerPlayerRoller.png"),
-	"enemyShort": new ImageObj(550, 472, 60, 40, "Images/BarrelRollerEnemy.png"),
-	"enemyTall": new ImageObj(830, 437, 60, 75, "Images/BarrelRollerEnemy.png")
+	"barrel": new ImageObj(110, 452, 60, 60, "Images/BarrelRoller/BarrelRollerPlayer.png"),
+	"barrelRoller": new ImageObj(50, 452, 60, 60, "Images/BarrelRoller/BarrelRollerPlayerRoller.png"),
+	"enemyShort": new ImageObj(550, 472, 60, 40, "Images/BarrelRoller/BarrelRollerEnemy.png"),
+	"enemyTall": new ImageObj(830, 437, 60, 75, "Images/BarrelRoller/BarrelRollerEnemy.png")
 	
 	//Drawing Barrel
 	/*"barrelOuter": new Circle(156, 0, 384, "grey"),
