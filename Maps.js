@@ -153,3 +153,40 @@ var WormThumb = {
 	"resetButton": new Circle(0, 0, 50, "red"),
 	"resetText": new Text(50, 100 - 35, "RESET", "30px Comic Sans MS")
 }
+
+var BarrelRollerThumb = {
+	Start: function(){
+		console.log("Loaded BarrelRollerThumb");
+	},
+	Update: function(){
+
+	},
+	"background": new ImageObj(0, 0, 1080, 768, "Images/BarrelRollerBG.png"),
+	"floor": new Rectangle(0, 512, 1080, 5, "black"),
+	"barrel": new ImageObj(110, 452, 60, 60, "Images/BarrelRollerPlayer.png"),
+	"barrelRoller": new ImageObj(50, 452, 60, 60, "Images/BarrelRollerPlayerRoller.png"),
+	"enemyShort": new ImageObj(550, 472, 60, 40, "Images/BarrelRollerEnemy.png"),
+	"enemyTall": new ImageObj(830, 437, 60, 75, "Images/BarrelRollerEnemy.png")
+	
+	//Drawing Barrel
+	/*"barrelOuter": new Circle(156, 0, 384, "grey"),
+	"barrelTop": new Circle(166, 10, 374, "#654321"),
+	"barrelLines": {
+		Draw: function(){
+			Game.context.beginPath();
+			Game.context.lineWidth = 5;
+			Game.context.moveTo(540, 10);
+			Game.context.lineTo(540, 758);
+			Game.context.stroke();
+			Game.context.beginPath();
+			Game.context.moveTo(353, 61);
+			Game.context.lineTo(353, 709);
+			Game.context.stroke();
+			Game.context.beginPath();
+			Game.context.moveTo(727, 61);
+			Game.context.lineTo(727, 709);
+			Game.context.stroke();
+		}
+	},
+	"barrelText": new Text(536, 384, "DMC", "80px Comic Sans MS"),*/
+}

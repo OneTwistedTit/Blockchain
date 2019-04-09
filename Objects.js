@@ -114,7 +114,7 @@ Circle = function(x, y, radius, color){
 ImageObj = function(x, y, width, height, src){
 	this.rect = new Rectangle(x, y, width, height);
 	this.image = new Image();
-	this.image.src = src
+	this.image.src = src;
 	this.Draw = function(){
 		Game.context.drawImage(this.image, this.rect.x, this.rect.y, this.rect.width, this.rect.height);
 	}
