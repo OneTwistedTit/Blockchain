@@ -12,6 +12,20 @@ var Game = {
     this.music = new Audio();
     this.ElementUpdate = null;
     this.music.loop = true;
+    this.music.handler = {
+      PlayAudio: async function(src){
+        try{
+          Game.music.src = src;
+          await Game.music.play();
+          console.log("Playing: " + src);
+        } catch(err) {
+          throw new Error(err);
+        }
+      },
+      Mute: function(){
+        Game.music.muted = !Game.music.muted;
+      }
+    }
     //Creates a boolean array for each key
     //Allows for subcardinal movement
     window.addEventListener('keydown', function(e) {
@@ -25,15 +39,6 @@ var Game = {
     Game.canvas.addEventListener('click', function(e){
       Game.click.Set(e.clientX - Game.canvas.getBoundingClientRect().left, e.clientY - Game.canvas.getBoundingClientRect().top);
     });
-  },
-  PlayAudio: async function(src){
-    try{
-      this.music.src = src;
-      await this.music.play();
-      console.log("Playing: " + src);
-    } catch(err) {
-      throw new Error(err);
-    }
   },
   CheckTick: function(ticks) {
     if ((this.frame / ticks) % 1 == 0) {

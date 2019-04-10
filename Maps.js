@@ -1,7 +1,7 @@
 var Init_Screen = {
 	Start: function(){
 		console.log("Initializing game...");
-		Game.PlayAudio("Sounds/Start_Screen.mp3");
+		Game.music.handler.PlayAudio("Sounds/Start_Screen.mp3");
 		Game.Load(Start_Screen);
 	},
 	Update: function(){
@@ -142,7 +142,7 @@ var WormThumb = {
 		console.log("Loaded WormThumb");
 	},
 	Update: function(){
-		/*if(Game.Elements["resetButton"].Contains(Game.click)){
+		if(Game.Elements["resetButton"].Contains(Game.click)){
 			Game.click.Set(null, null);
 			Game.Reset();
 		}
@@ -150,7 +150,7 @@ var WormThumb = {
 			Game.click.Set(null, null);
 			console.log("Moving to Game Selection");
 			Game.Load(Game_Selection);
-		}*/
+		}
 	},
 	"background": new Rectangle(0, 0, 1080, 768, "white"),
 	"border": {
@@ -162,12 +162,11 @@ var WormThumb = {
 	"bottomSegment": new Rectangle(62, 655, 200, 25, "green"),
 	"middleSegment": new Rectangle(62, 455, 25, 200, "green"),
 	"topSegment": new Rectangle(62, 430, 250, 25, "green"),
-	"apple": new Rectangle(365, 430, 25, 25, "red")
-	/*"length": new Text(540, 105 - 30, "Length: 26", "60px Comic Sans MS"),
+	"apple": new Rectangle(365, 430, 25, 25, "red"),
 	"backButton": new Rectangle(780, 0, 315, 75, "cyan"),
 	"backText": new Text(780 + 150, 60, "<- BACK", "60px Comic Sans MS"),
 	"resetButton": new Circle(0, 0, 50, "red"),
-	"resetText": new Text(50, 100 - 35, "RESET", "30px Comic Sans MS")*/
+	"resetText": new Text(50, 100 - 35, "RESET", "30px Comic Sans MS")
 }
 
 var BarrelRollerThumb = {
@@ -222,11 +221,29 @@ var BarrelRollerThumb = {
 var WormGame = {
 	Start: function(){
 		console.log("Loaded Worm");
-		var velocity = new Vector2(1, 0),
-			length			
+		var direction = new Vector2(1, 0),
+			started = false,
+			//CheckTick(10),
+			points = 0,
+			gridDim = new Vector2(41, 25),
+			worm = new Vector2(1, 1),
+			prevPos = [],
+			blockSize = 25;
+		function startGame(){
+			if(!started){
+				
+			}
+		}
 	},
 	Update: function(){
+		if(Game.keys){
 
+
+			if (Game.keys[65]) direction.Set(-1, 0);
+			if (Game.keys[68]) direction.Set(1, 0);
+			if (Game.keys[87]) direction.Set(0, -1);
+			if (Game.keys[83]) direction.Set(0, 1);
+		}
 	},
 	"background": new Rectangle(0, 0, 1080, 768, "white"),
 	"border": {
