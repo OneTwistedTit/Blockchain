@@ -156,12 +156,12 @@ var WormThumb = {
 	"border": {
 		Draw: function(){
 			Game.context.lineWidth = 5;
-			Game.context.strokeRect(15, 105, 1050, 650);
+			Game.context.strokeRect(12, 105, 1055, 655);
 		}
 	},
-	"bottomSegment": new Rectangle(65, 655, 200, 25, "green"),
-	"middleSegment": new Rectangle(65, 455, 25, 200, "green"),
-	"topSegment": new Rectangle(65, 430, 250, 25, "green"),
+	"bottomSegment": new Rectangle(62, 655, 200, 25, "green"),
+	"middleSegment": new Rectangle(62, 455, 25, 200, "green"),
+	"topSegment": new Rectangle(62, 430, 250, 25, "green"),
 	"apple": new Rectangle(365, 430, 25, 25, "red")
 	/*"length": new Text(540, 105 - 30, "Length: 26", "60px Comic Sans MS"),
 	"backButton": new Rectangle(780, 0, 315, 75, "cyan"),
