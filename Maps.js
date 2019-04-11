@@ -1,28 +1,28 @@
 var Init_Screen = {
-	Start: function(){
+	start: function(){
 		console.log("Initializing game...");
-		Game.music.handler.PlayAudio("Sounds/Start_Screen.mp3");
-		Game.Load(Start_Screen);
+		Game.music.handler.playAudio("Sounds/Start_Screen.mp3");
+		Game.load(Start_Screen);
 	},
-	Update: function(){
+	update: function(){
 		
 	}
 }
 
 var Start_Screen = {
-	Start: function(){
+	start: function(){
 		console.log("Game started!"); 
 	},
-	Update: function(){
-		if(Game.click.x && Game.click.y){
-			if(Game.Elements["resetButton"].Contains(Game.click)){
-				Game.click.Set(null, null);
-				Game.Reset();
+	update: function(){
+		if(Game.click.length == 2){
+			if(Game.Elements["resetButton"].contains(Game.click)){
+				Game.click = [null, null];;
+				Game.reset();
 			}
-			if(Game.Elements["playButton"].Contains(Game.click)){
-				Game.click.Set(null, null);
-				console.log("Loading Game");
-				Game.Load(Game_Selection);
+			if(Game.Elements["playButton"].contains(Game.click)){
+				Game.click = [null, null];;
+				console.log("loading Game");
+				Game.load(Game_Selection);
 			}
 		}
 	},
@@ -36,43 +36,43 @@ var Start_Screen = {
 	"resetText": new Text(50, 100 - 35, "RESET", "30px Comic Sans MS")
 }
 var Game_Selection = {
-	Start: function(){
+	start: function(){
 		console.log("Moved to Game Selection");
 	},
-	Update: function(){
-		if(Game.click.x && Game.click.y){
+	update: function(){
+		if(Game.click.length == 2){
 			if(Game.Elements["tableTennisIMG"]){
-				if(Game.Elements["tableTennisIMG"].rect.Contains(Game.click)){
-					Game.click.Set(null, null);
+				if(Game.Elements["tableTennisIMG"].rect.contains(Game.click)){
+					Game.click = [null, null];;
 					console.log("Moving to TableTennisThumb");
-					Game.Load(TableTennisThumb);
+					Game.load(TableTennisThumb);
 				}
 			}
 			if(Game.Elements["wormIMG"]){
-				if(Game.Elements["wormIMG"].rect.Contains(Game.click)){
-					Game.click.Set(null, null);
+				if(Game.Elements["wormIMG"].rect.contains(Game.click)){
+					Game.click = [null, null];;
 					console.log("Moving to WormThumb");
-					Game.Load(WormThumb);
+					Game.load(WormThumb);
 				}
 			}
 			if(Game.Elements["barrelRollerIMG"]){
-				if(Game.Elements["barrelRollerIMG"].rect.Contains(Game.click)){
-					Game.click.Set(null, null);
+				if(Game.Elements["barrelRollerIMG"].rect.contains(Game.click)){
+					Game.click = [null, null];;
 					console.log("Moving to BarrelRollerThumb");
-					Game.Load(BarrelRollerThumb);
+					Game.load(BarrelRollerThumb);
 				}
 			}
 			if(Game.Elements["backButton"]){
-				if(Game.Elements["backButton"].Contains(Game.click)){
-					Game.click.Set(null, null);
+				if(Game.Elements["backButton"].contains(Game.click)){
+					Game.click = [null, null];;
 					console.log("Moving to Start Screen");
-					Game.Load(Start_Screen);
+					Game.load(Start_Screen);
 				}
 			}
 			if(Game.Elements["resetButton"]){
-				if(Game.Elements["resetButton"].Contains(Game.click)){
-					Game.click.Set(null, null);
-					Game.Reset();
+				if(Game.Elements["resetButton"].contains(Game.click)){
+					Game.click = [null, null];;
+					Game.reset();
 				}
 			}
 		}
@@ -91,18 +91,18 @@ var Game_Selection = {
 }
 
 var TableTennisThumb = {
-	Start: function(){
-		console.log("Loaded TableTennisThumb");
+	start: function(){
+		console.log("loaded TableTennisThumb");
 	},
-	Update: function(){
-		if(Game.Elements["resetButton"].Contains(Game.click)){
-			Game.click.Set(null, null);
-			Game.Reset();
+	update: function(){
+		if(Game.Elements["resetButton"].contains(Game.click)){
+			Game.click = [null, null];
+			Game.reset();
 		}
-		if(Game.Elements["backButton"].Contains(Game.click)){
-			Game.click.Set(null, null);
+		if(Game.Elements["backButton"].contains(Game.click)){
+			Game.click = [null, null];
 			console.log("Moving to Game Selection");
-			Game.Load(Game_Selection);
+			Game.load(Game_Selection);
 		}
 	},
 	"background": new Rectangle(0, 0, 1080, 768, "white"),
@@ -112,7 +112,7 @@ var TableTennisThumb = {
 	"net": new Rectangle(537, 134, 6, 500, "white"),
 	"ball": new Circle(300, 550, 7.5, "orange"),
 	"leftPlayer": {
-		Draw: function(){
+		draw: function(){
 			Game.context.beginPath();
 			Game.context.lineWidth = 20;
 			Game.context.strokeStyle = "black";
@@ -122,7 +122,7 @@ var TableTennisThumb = {
 		}
 	},
 	"rightPlayer": {
-		Draw: function(){
+		draw: function(){
 			Game.context.beginPath();
 			Game.context.lineWidth = 20;
 			Game.context.strokeStyle = "black";
@@ -138,23 +138,23 @@ var TableTennisThumb = {
 }
 
 var WormThumb = {
-	Start: function(){
-		console.log("Loaded WormThumb");
+	start: function(){
+		console.log("loaded WormThumb");
 	},
-	Update: function(){
-		if(Game.Elements["resetButton"].Contains(Game.click)){
-			Game.click.Set(null, null);
-			Game.Reset();
+	update: function(){
+		if(Game.Elements["resetButton"].contains(Game.click)){
+			Game.click = [null, null];
+			Game.reset();
 		}
-		if(Game.Elements["backButton"].Contains(Game.click)){
-			Game.click.Set(null, null);
+		if(Game.Elements["backButton"].contains(Game.click)){
+			Game.click = [null, null];;
 			console.log("Moving to Game Selection");
-			Game.Load(Game_Selection);
+			Game.load(Game_Selection);
 		}
 	},
 	"background": new Rectangle(0, 0, 1080, 768, "white"),
 	"border": {
-		Draw: function(){
+		draw: function(){
 			Game.context.lineWidth = 5;
 			Game.context.strokeRect(12, 105, 1055, 655);
 		}
@@ -170,18 +170,18 @@ var WormThumb = {
 }
 
 var BarrelRollerThumb = {
-	Start: function(){
-		console.log("Loaded BarrelRollerThumb");
+	start: function(){
+		console.log("loaded BarrelRollerThumb");
 	},
-	Update: function(){
-		if(Game.Elements["resetButton"].Contains(Game.click)){
-			Game.click.Set(null, null);
-			Game.Reset();
+	update: function(){
+		if(Game.Elements["resetButton"].contains(Game.click)){
+			Game.click = [null, null];;
+			Game.reset();
 		}
-		if(Game.Elements["backButton"].Contains(Game.click)){
-			Game.click.Set(null, null);
+		if(Game.Elements["backButton"].contains(Game.click)){
+			Game.click = [null, null];;
 			console.log("Moving to Game Selection");
-			Game.Load(Game_Selection);
+			Game.load(Game_Selection);
 		}
 	},
 	"background": new ImageObj(0, 0, 1080, 768, "Images/BarrelRoller/BarrelRollerBG.png"),
@@ -195,11 +195,11 @@ var BarrelRollerThumb = {
 	"resetButton": new Circle(0, 0, 50, "red"),
 	"resetText": new Text(50, 100 - 35, "RESET", "30px Comic Sans MS")
 	
-	//Drawing Barrel
+	//drawing Barrel
 	/*"barrelOuter": new Circle(156, 0, 384, "grey"),
 	"barrelTop": new Circle(166, 10, 374, "#654321"),
 	"barrelLines": {
-		Draw: function(){
+		draw: function(){
 			Game.context.beginPath();
 			Game.context.lineWidth = 5;
 			Game.context.moveTo(540, 10);
@@ -219,44 +219,47 @@ var BarrelRollerThumb = {
 }
 
 var WormGame = {
-	Start: function(){
-		console.log("Loaded Worm");
-		var direction = new Vector2(1, 0),
-			started = false,
-			//CheckTick(10),
-			points = 0,
-			gridDim = new Vector2(41, 25),
-			worm = new Vector2(1, 1),
-			prevPos = [],
-			blockSize = 25;
-		function startGame(){
-			if(!started){
-				
+	start: function(){
+		console.log("loaded Worm");
+		Game.gameHandler = {
+			direction: [1, 0],
+			started: false,
+			points: 0,
+			gridDim: [42, 26],
+			worm: [[1, 1]],
+			prevMovement: [],
+			blockSize: 25,
+			changeDir: function(v){
+				if (v.map(Math.abs).indexOf(1) != this.direction.toArray().map(Math.abs).indexOf(1)){
+					direction.writeArray(v);
+				}
 			}
 		}
 	},
-	Update: function(){
-		if(Game.keys){
+	update: function(){
+		if(this.started){
+			if(Game.keys){
+				if (Game.keys[65]) Game.gameHandler.changeDir(-1, 0);
+				if (Game.keys[68]) Game.gameHandler.changeDir(1, 0);
+				if (Game.keys[87]) Game.gameHandler.changeDir(0, -1);
+				if (Game.keys[83]) Game.gameHandler.changeDir(0, 1);
+			}
 
-
-			if (Game.keys[65]) direction.Set(-1, 0);
-			if (Game.keys[68]) direction.Set(1, 0);
-			if (Game.keys[87]) direction.Set(0, -1);
-			if (Game.keys[83]) direction.Set(0, 1);
 		}
 	},
 	"background": new Rectangle(0, 0, 1080, 768, "white"),
 	"border": {
-		Draw: function(){
+		draw: function(){
 			Game.context.lineWidth = 5;
 			Game.context.strokeRect(12, 105, 1055, 655);
 		}
-	},
+	}
+
 	/*
 
 
 	var vel = [1, 0],
-		notStarted = true,
+		notstarted = true,
 		t = 300,
 		lemon = null,
 		timeToLemon = 1,
@@ -324,10 +327,10 @@ var WormGame = {
 	});
 
 	function startGame(){
-		if(notStarted){
+		if(notstarted){
 			if(!localStorage.getItem("mute"))
 				music.play();
-			notStarted = false;
+			notstarted = false;
 			gameLoop();
 		}
 	}
@@ -337,6 +340,7 @@ var WormGame = {
 		if(lastMoved[1-v.indexOf(0)] != -v[1-v.indexOf(0)] || body.length == 1)
 			vel = v;
 	}
+
 
 	function gameOver(m){
 		if(points > highScore)
@@ -409,7 +413,7 @@ var WormGame = {
 	draw();
 
 	*/
-	"gameArea": new Rectangle(15, 108, 1050, 650)
+	//"gameArea": new Rectangle(15, 108, 1050, 650)
 	//"score": new Text(540, 78, "Length: 1")
 
 }

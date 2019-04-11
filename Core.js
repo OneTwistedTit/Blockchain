@@ -1,28 +1,29 @@
 var Game = {
   canvas: document.createElement("canvas"),
-  Start: function() {
+  start: function() {
     this.canvas.width = 1080;
     this.canvas.height = 768;
     this.context = this.canvas.getContext("2d");
     this.canvas.style = "border-style: solid; border-width: 2px; display: block; margin: auto;"
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-    this.interval = setInterval(UpdateGame, 20);
+    this.interval = setInterval(updateGame, 20);
     this.frame = 0;
     this.Elements = {}
     this.music = new Audio();
-    this.ElementUpdate = null;
+    this.updateElements = null;
+    this.gameHandler = null;
     this.music.loop = true;
     this.music.handler = {
-      PlayAudio: async function(src){
+      playAudio: async function(src){
         try{
           Game.music.src = src;
           await Game.music.play();
-          console.log("Playing: " + src);
+          console.log("playing: " + src);
         } catch(err) {
           throw new Error(err);
         }
       },
-      Mute: function(){
+      mute: function(){
         Game.music.muted = !Game.music.muted;
       }
     }
@@ -35,33 +36,34 @@ var Game = {
     window.addEventListener('keyup', function(e) {
       Game.keys[e.keyCode] = false;
     });
-    this.click = new Vector2(null, null);
+    this.click = [null, null];
     Game.canvas.addEventListener('click', function(e){
-      Game.click.Set(e.clientX - Game.canvas.getBoundingClientRect().left, e.clientY - Game.canvas.getBoundingClientRect().top);
+      Game.click = [e.clientX - Game.canvas.getBoundingClientRect().left, e.clientY - Game.canvas.getBoundingClientRect().top];
     });
   },
-  CheckTick: function(ticks) {
+  checkTick: function(ticks) {
     if ((this.frame / ticks) % 1 == 0) {
       return true;
     }
     return false;
   },
-  Clear: function() {
+  clear: function() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
   },
-  Reset: function() {
+  reset: function() {
     location.reload();
   },
-  Load: function(map) {
+  load: function(map) {
     this.Elements = {}
+    this.gameInit = null;
     var i;
     for (i in map){
       this.Elements[i] = map[i];
     }
-    this.ElementUpdate = this.Elements.Update;
-    delete this.Elements.Update;
-    this.Elements.Start();
-    delete this.Elements.Start;
+    this.updateElements = this.Elements.update;
+    delete this.Elements.update;
+    this.Elements.start();
+    delete this.Elements.start;
     
   },
   Screenshot: function(){
