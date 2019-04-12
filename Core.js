@@ -11,7 +11,7 @@ var Game = {
     this.Elements = {}
     this.music = new Audio();
     this.updateElements = null;
-    this.gameHandler = null;
+    this.gh = null;
     this.music.loop = true;
     this.music.handler = {
       playAudio: async function(src){
@@ -36,9 +36,21 @@ var Game = {
     window.addEventListener('keyup', function(e) {
       Game.keys[e.keyCode] = false;
     });
-    this.click = [null, null];
+    this.click = [];
+    this.click.isNull = function(){
+      if(Game.click[0] == null || Game.click[1] == null){
+        return true;
+      } else {
+        return false;
+      }
+    }
+    this.click.clear = function(){
+      Game.click[0] = null;
+      Game.click[1] = null;
+    }
     Game.canvas.addEventListener('click', function(e){
-      Game.click = [e.clientX - Game.canvas.getBoundingClientRect().left, e.clientY - Game.canvas.getBoundingClientRect().top];
+      Game.click[0] = e.clientX - Game.canvas.getBoundingClientRect().left;
+      Game.click[1] = e.clientY - Game.canvas.getBoundingClientRect().top;
     });
   },
   checkTick: function(ticks) {
@@ -54,8 +66,8 @@ var Game = {
     location.reload();
   },
   load: function(map) {
-    this.Elements = {}
-    this.gameInit = null;
+    this.Elements = {};
+    this.gh = null;
     var i;
     for (i in map){
       this.Elements[i] = map[i];

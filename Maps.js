@@ -1,12 +1,15 @@
 var Init_Screen = {
 	start: function(){
-		console.log("Initializing game...");
-		Game.music.handler.playAudio("Sounds/Start_Screen.mp3");
-		Game.load(Start_Screen);
+		console.log("Initializing Game...");
 	},
 	update: function(){
-		
-	}
+		if(!Game.click.isNull()){
+			Game.music.handler.playAudio("Sounds/Start_Screen.mp3");
+			Game.click.clear();
+			Game.load(Start_Screen);
+		}
+	},
+	"initText": new Text(540, 384, "Click to Play!", "150px Comic Sans MS")
 }
 
 var Start_Screen = {
@@ -14,13 +17,13 @@ var Start_Screen = {
 		console.log("Game started!"); 
 	},
 	update: function(){
-		if(Game.click.length == 2){
+		if(!Game.click.isNull()){
 			if(Game.Elements["resetButton"].contains(Game.click)){
-				Game.click = [null, null];;
+				Game.click.clear();
 				Game.reset();
 			}
 			if(Game.Elements["playButton"].contains(Game.click)){
-				Game.click = [null, null];;
+				Game.click.clear();;
 				console.log("loading Game");
 				Game.load(Game_Selection);
 			}
@@ -40,38 +43,38 @@ var Game_Selection = {
 		console.log("Moved to Game Selection");
 	},
 	update: function(){
-		if(Game.click.length == 2){
+		if(!Game.click.isNull()){
 			if(Game.Elements["tableTennisIMG"]){
 				if(Game.Elements["tableTennisIMG"].rect.contains(Game.click)){
-					Game.click = [null, null];;
+					Game.click.clear();;
 					console.log("Moving to TableTennisThumb");
 					Game.load(TableTennisThumb);
 				}
 			}
 			if(Game.Elements["wormIMG"]){
 				if(Game.Elements["wormIMG"].rect.contains(Game.click)){
-					Game.click = [null, null];;
+					Game.click.clear();;
 					console.log("Moving to WormThumb");
 					Game.load(WormThumb);
 				}
 			}
 			if(Game.Elements["barrelRollerIMG"]){
 				if(Game.Elements["barrelRollerIMG"].rect.contains(Game.click)){
-					Game.click = [null, null];;
+					Game.click.clear();;
 					console.log("Moving to BarrelRollerThumb");
 					Game.load(BarrelRollerThumb);
 				}
 			}
 			if(Game.Elements["backButton"]){
 				if(Game.Elements["backButton"].contains(Game.click)){
-					Game.click = [null, null];;
+					Game.click.clear();;
 					console.log("Moving to Start Screen");
 					Game.load(Start_Screen);
 				}
 			}
 			if(Game.Elements["resetButton"]){
 				if(Game.Elements["resetButton"].contains(Game.click)){
-					Game.click = [null, null];;
+					Game.click.clear();;
 					Game.reset();
 				}
 			}
@@ -95,14 +98,16 @@ var TableTennisThumb = {
 		console.log("loaded TableTennisThumb");
 	},
 	update: function(){
-		if(Game.Elements["resetButton"].contains(Game.click)){
-			Game.click = [null, null];
-			Game.reset();
-		}
-		if(Game.Elements["backButton"].contains(Game.click)){
-			Game.click = [null, null];
-			console.log("Moving to Game Selection");
-			Game.load(Game_Selection);
+		if(!Game.click.isNull()){
+			if(Game.Elements["resetButton"].contains(Game.click)){
+				Game.click.clear();
+				Game.reset();
+			}
+			if(Game.Elements["backButton"].contains(Game.click)){
+				Game.click.clear();
+				console.log("Moving to Game Selection");
+				Game.load(Game_Selection);
+			}
 		}
 	},
 	"background": new Rectangle(0, 0, 1080, 768, "white"),
@@ -142,14 +147,16 @@ var WormThumb = {
 		console.log("loaded WormThumb");
 	},
 	update: function(){
-		if(Game.Elements["resetButton"].contains(Game.click)){
-			Game.click = [null, null];
-			Game.reset();
-		}
-		if(Game.Elements["backButton"].contains(Game.click)){
-			Game.click = [null, null];;
-			console.log("Moving to Game Selection");
-			Game.load(Game_Selection);
+		if(!Game.click.isNull()){
+			if(Game.Elements["resetButton"].contains(Game.click)){
+				Game.click.clear();
+				Game.reset();
+			}
+			if(Game.Elements["backButton"].contains(Game.click)){
+				Game.click.clear();;
+				console.log("Moving to Game Selection");
+				Game.load(Game_Selection);
+			}
 		}
 	},
 	"background": new Rectangle(0, 0, 1080, 768, "white"),
@@ -174,14 +181,16 @@ var BarrelRollerThumb = {
 		console.log("loaded BarrelRollerThumb");
 	},
 	update: function(){
-		if(Game.Elements["resetButton"].contains(Game.click)){
-			Game.click = [null, null];;
-			Game.reset();
-		}
-		if(Game.Elements["backButton"].contains(Game.click)){
-			Game.click = [null, null];;
-			console.log("Moving to Game Selection");
-			Game.load(Game_Selection);
+		if(!Game.click.isNull()){
+			if(Game.Elements["resetButton"].contains(Game.click)){
+				Game.click.clear();
+				Game.reset();
+			}
+			if(Game.Elements["backButton"].contains(Game.click)){
+				Game.click.clear();;
+				console.log("Moving to Game Selection");
+				Game.load(Game_Selection);
+			}
 		}
 	},
 	"background": new ImageObj(0, 0, 1080, 768, "Images/BarrelRoller/BarrelRollerBG.png"),
@@ -221,16 +230,17 @@ var BarrelRollerThumb = {
 var WormGame = {
 	start: function(){
 		console.log("loaded Worm");
-		Game.gameHandler = {
+		Game.gh = {
 			direction: [1, 0],
 			started: false,
 			points: 0,
 			gridDim: [42, 26],
-			worm: [[1, 1]],
+			worm: [[20, 12]],
+			apple: null,
 			prevMovement: [],
 			blockSize: 25,
 			changeDir: function(v){
-				if (v.map(Math.abs).indexOf(1) != this.direction.toArray().map(Math.abs).indexOf(1)){
+				if (v.map(Math.abs).indexOf(1) != this.direction.map(Math.abs).indexOf(1)){
 					direction.writeArray(v);
 				}
 			}
@@ -239,10 +249,10 @@ var WormGame = {
 	update: function(){
 		if(this.started){
 			if(Game.keys){
-				if (Game.keys[65]) Game.gameHandler.changeDir(-1, 0);
-				if (Game.keys[68]) Game.gameHandler.changeDir(1, 0);
-				if (Game.keys[87]) Game.gameHandler.changeDir(0, -1);
-				if (Game.keys[83]) Game.gameHandler.changeDir(0, 1);
+				if (Game.keys[65]) Game.gh.changeDir(-1, 0);
+				if (Game.keys[68]) Game.gh.changeDir(1, 0);
+				if (Game.keys[87]) Game.gh.changeDir(0, -1);
+				if (Game.keys[83]) Game.gh.changeDir(0, 1);
 			}
 
 		}
@@ -252,6 +262,17 @@ var WormGame = {
 		draw: function(){
 			Game.context.lineWidth = 5;
 			Game.context.strokeRect(12, 105, 1055, 655);
+		}
+	},
+	"GameArea": new Rectangle(15, 108, 1050, 650),
+	"player": {
+		draw: function(){
+			if(Game.gh != null){
+				for(var part of Game.gh.worm){
+					Game.context.fillStyle = "green";
+					Game.context.fillRect(part[0] * Game.gh.blockSize + 15, part[1] * Game.gh.blockSize + 108, Game.gh.blockSize, Game.gh.blockSize);
+				}
+			}
 		}
 	}
 
@@ -331,7 +352,7 @@ var WormGame = {
 			if(!localStorage.getItem("mute"))
 				music.play();
 			notstarted = false;
-			gameLoop();
+			GameLoop();
 		}
 	}
 
@@ -342,7 +363,7 @@ var WormGame = {
 	}
 
 
-	function gameOver(m){
+	function GameOver(m){
 		if(points > highScore)
 			localStorage.setItem("highScore", points.toString());
 
@@ -369,18 +390,18 @@ var WormGame = {
 		ctx.fillText("highscore: " + highScore, 3, 46);
 	}
 
-	function gameLoop(){
+	function GameLoop(){
 		let n = [].concat(body[body.length - 1]);
 
 		n[0] += vel[0];
 		n[1] += vel[1];
 
 		if(n[0] >= gridSize || n[0] < 0 || n[1] >= gridSize || n[1] < 0)
-			return gameOver("you ran into a wall and binged your head :(");
+			return GameOver("you ran into a wall and binged your head :(");
 
 		for(var b of body){
 			if(b[0] == n[0] && b[1] == n[1])
-				return gameOver("you have crashed into one of your fellow ptings, causing a quite a dispute :(");
+				return GameOver("you have crashed into one of your fellow ptings, causing a quite a dispute :(");
 		}
 
 		if(timeToLemon <= 0 && !lemon){
@@ -406,14 +427,14 @@ var WormGame = {
 
 		draw();
 		setTimeout(function(){
-			gameLoop();
+			GameLoop();
 		}, t);
 	}
 	
 	draw();
 
 	*/
-	//"gameArea": new Rectangle(15, 108, 1050, 650)
+	
 	//"score": new Text(540, 78, "Length: 1")
 
 }
