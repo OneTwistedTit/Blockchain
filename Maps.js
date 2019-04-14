@@ -198,7 +198,7 @@ var Worm = {
 	start: function(){
 		console.log("loaded Worm");
 		this.dim = [41, 25];
-		this.worm = [[Math.floor(Math.random() * this.dim[0]), Math.floor(Math.random() * this.dim[1])]];
+		this.worm = [[Math.floor(this.dim[0] / 2), Math.floor(this.dim[1] / 2)]];
 		this.apple = null;
 		this.direction = [1, 0];
 		this.playing = false;
@@ -227,7 +227,6 @@ var Worm = {
 			if(this.apple != null){
 				if(head[0] == this.apple[0] && head[1] == this.apple[1]){
 					this.points++;
-					this.elements.score.value = `Points: ${this.points}`;
 					this.worm = [this.worm[0]].concat(this.worm);
 					this.apple = null;
 				}
@@ -257,6 +256,7 @@ var Worm = {
 				Game.load(Game_Selection);
 			}
 		}
+		this.elements.score.value = `Points: ${this.points}`;
 		if(this.playing){
 			if(Game.keys){
 				if (Game.keys[65] || Game.keys[37]) this.newDir([-1, 0]);
@@ -269,7 +269,6 @@ var Worm = {
 
 				}
 			}
-
 		}
 	},
 	elements: {
@@ -298,7 +297,7 @@ var Worm = {
 				}
 			}
 		},
-		"score": new Text(540, 98, `Points: 0`, "80px Comic Sans MS"),
+		"score": new Text(540, 98, "Points: 0", "80px Comic Sans MS"),
 		"backButton": new RectButton(780, 0, 315, 75, "cyan", "<- BACK", "60px Comic Sans MS"),
 		"playButton": new CircleButton(0, 0, 50, "green", "PLAY", "30px Comic Sans MS")
 	}
