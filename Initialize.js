@@ -5,10 +5,10 @@ function startGame() {
 function updateGame(){
   	Game.clear();
   	Game.frame++;
-  	for (var i = 0; i < Object.keys(Game.Elements).length; i++) {
-    	Game.Elements[Object.keys(Game.Elements)[i]].draw();
-    	Game.updateElements();
+  	for (var i = 0; i < Object.keys(Game.current.elements).length; i++) {
+   		Game.current.elements[Object.keys(Game.current.elements)[i]].draw();
  	}
+ 	Game.current.update();
   	if (Game.keys) {
       		if (Game.keys[77]){ 
       		Game.music.handler.mute();

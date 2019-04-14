@@ -9,7 +9,9 @@ var Init_Screen = {
 			Game.load(Start_Screen);
 		}
 	},
-	"initText": new Text(540, 384, "Click to Play!", "150px Comic Sans MS")
+	elements: {
+		"initText": new Text(540, 384, "Click to Play!", "150px Comic Sans MS")
+	}
 }
 
 var Start_Screen = {
@@ -18,25 +20,20 @@ var Start_Screen = {
 	},
 	update: function(){
 		if(!Game.click.isNull()){
-			if(Game.Elements["resetButton"].contains(Game.click)){
-				Game.click.clear();
-				Game.reset();
-			}
-			if(Game.Elements["playButton"].contains(Game.click)){
+			if(Game.Elements["playButton"].container.contains(Game.click)){
 				Game.click.clear();;
 				console.log("loading Game");
 				Game.load(Game_Selection);
 			}
 		}
 	},
-	"background": new Rectangle(0, 0, 1080, 768, "rgb(138, 0, 255"),
-	"credits": new Text(540, 768 - 15, "Created by John Doe 2019", "15px Comic Sans MS"),
-	"titleBG": new Rectangle(120, 35, 796 + 50, 120 + 20, "cyan"),
-	"title": new Text(540, 140, "BLOCKCHAIN", "120px Comic Sans MS"),
-	"playButton": new Rectangle(340, 334, 400, 200, "green"),
-	"playText": new Text(540, 474, "PLAY", "120px Comic Sans MS"),
-	"resetButton": new Circle(0, 0, 50, "red"),
-	"resetText": new Text(50, 100 - 35, "RESET", "30px Comic Sans MS")
+	elements: {
+		"background": new Rectangle(0, 0, 1080, 768, "rgb(138, 0, 255"),
+		"credits": new Text(540, 768 - 15, "Created by John Doe 2019", "15px Comic Sans MS"),
+		"titleBG": new Rectangle(120, 35, 846, 140, "rgba(0, 255, 255, 1)"),
+		"title": new Text(540, 140, "BLOCKCHAIN", "120px Comic Sans MS"),
+		"playButton": new RectButton(340, 334, 400, 200, "green", "PLAY", "120px Comic Sans MS"),
+	}
 }
 var Game_Selection = {
 	start: function(){
@@ -44,53 +41,39 @@ var Game_Selection = {
 	},
 	update: function(){
 		if(!Game.click.isNull()){
-			if(Game.Elements["tableTennisIMG"]){
-				if(Game.Elements["tableTennisIMG"].rect.contains(Game.click)){
-					Game.click.clear();;
-					console.log("Moving to TableTennisThumb");
-					Game.load(TableTennisThumb);
-				}
+			if(this.elements["tableTennisIMG"].rect.contains(Game.click)){
+				Game.click.clear();;
+				console.log("Moving to TableTennisThumb");
+				Game.load(TableTennisThumb);
 			}
-			if(Game.Elements["wormIMG"]){
-				if(Game.Elements["wormIMG"].rect.contains(Game.click)){
-					Game.click.clear();;
-					console.log("Moving to WormThumb");
-					Game.load(WormThumb);
-				}
+			if(this.elements["wormIMG"].rect.contains(Game.click)){
+				Game.click.clear();;
+				console.log("Moving to Worm");
+				Game.load(Worm);
 			}
-			if(Game.Elements["barrelRollerIMG"]){
-				if(Game.Elements["barrelRollerIMG"].rect.contains(Game.click)){
-					Game.click.clear();;
-					console.log("Moving to BarrelRollerThumb");
-					Game.load(BarrelRollerThumb);
-				}
+			if(this.elements["barrelRollerIMG"].rect.contains(Game.click)){
+				Game.click.clear();;
+				console.log("Moving to BarrelRollerThumb");
+				Game.load(BarrelRollerThumb);
 			}
-			if(Game.Elements["backButton"]){
-				if(Game.Elements["backButton"].contains(Game.click)){
-					Game.click.clear();;
-					console.log("Moving to Start Screen");
-					Game.load(Start_Screen);
-				}
+				if(this.elements["backButton"].container.contains(Game.click)){
+				Game.click.clear();;
+				console.log("Moving to Start Screen");
+				Game.load(Start_Screen);
 			}
-			if(Game.Elements["resetButton"]){
-				if(Game.Elements["resetButton"].contains(Game.click)){
-					Game.click.clear();;
-					Game.reset();
-				}
-			}
+			
 		}
 	},
-	"background": new Rectangle(0, 0, 1080, 768, "black"),
-	"tableTennisText": new Text(215, 195, "Table Tennis", "50px Comic Sans MS", null, "white"),
-	"tableTennisIMG": new ImageObj(57, 200, 315, 225, "Images/Thumbnails/TableTennisThumb.png"),
-	"wormText": new Text(540, 195, "Worm", "50px Comic Sans MS", null, "white"),
-	"wormIMG": new ImageObj(382, 200, 315, 225, "Images/Thumbnails/WormThumb.png"),
-	"barrelRollerIMG": new ImageObj(708, 200, 315, 225, "Images/Thumbnails/BarrelRollerThumb.png"),
-	"barrelRollerText": new Text(865, 200, "Barrel Roller", "50px Comic Sans MS", null, "white"),
-	"backButton": new Rectangle(780, 0, 315, 75, "cyan"),
-	"backText": new Text(780 + 150, 60, "<- BACK", "60px Comic Sans MS"),
-	"resetButton": new Circle(0, 0, 50, "red"),
-	"resetText": new Text(50, 100 - 35, "RESET", "30px Comic Sans MS")
+	elements: {
+		"background": new Rectangle(0, 0, 1080, 768, "black"),
+		"tableTennisText": new Text(215, 195, "Table Tennis", "50px Comic Sans MS", null, "white"),
+		"tableTennisIMG": new ImageObj(57, 200, 315, 225, "Images/Thumbnails/TableTennisThumb.png"),
+		"wormText": new Text(540, 195, "Worm", "50px Comic Sans MS", null, "white"),
+		"wormIMG": new ImageObj(382, 200, 315, 225, "Images/Thumbnails/WormThumb.png"),
+		"barrelRollerIMG": new ImageObj(708, 200, 315, 225, "Images/Thumbnails/BarrelRollerThumb.png"),
+		"barrelRollerText": new Text(865, 200, "Barrel Roller", "50px Comic Sans MS", null, "white"),
+		"backButton": new RectButton(780, 0, 315, 75, "cyan", "<- BACK", "60px Comic Sans MS")
+	}
 }
 
 var TableTennisThumb = {
@@ -99,47 +82,42 @@ var TableTennisThumb = {
 	},
 	update: function(){
 		if(!Game.click.isNull()){
-			if(Game.Elements["resetButton"].contains(Game.click)){
-				Game.click.clear();
-				Game.reset();
-			}
-			if(Game.Elements["backButton"].contains(Game.click)){
+			if(this.elements["backButton"].container.contains(Game.click)){
 				Game.click.clear();
 				console.log("Moving to Game Selection");
 				Game.load(Game_Selection);
 			}
 		}
 	},
-	"background": new Rectangle(0, 0, 1080, 768, "white"),
-	"table": new Rectangle(200, 134, 680, 500, "rgba(0, 100, 255"),
-	"horizontal": new Rectangle(200, 381, 680, 5, "white"),
-	"netBG": new Rectangle(535, 134, 10, 500, "black"),
-	"net": new Rectangle(537, 134, 6, 500, "white"),
-	"ball": new Circle(300, 550, 7.5, "orange"),
-	"leftPlayer": {
-		draw: function(){
-			Game.context.beginPath();
-			Game.context.lineWidth = 20;
-			Game.context.strokeStyle = "black";
-			Game.context.moveTo(45, 507);
-			Game.context.lineTo(55, 607)
-			Game.context.stroke();
-		}
+	elements: {
+		"background": new Rectangle(0, 0, 1080, 768, "white"),
+		"table": new Rectangle(200, 134, 680, 500, "rgba(0, 100, 255"),
+		"horizontal": new Rectangle(200, 381, 680, 5, "white"),
+		"netBG": new Rectangle(535, 134, 10, 500, "black"),
+		"net": new Rectangle(537, 134, 6, 500, "white"),
+		"ball": new Circle(300, 550, 7.5, "orange"),
+		"leftPlayer": {
+			draw: function(){
+				Game.context.beginPath();
+				Game.context.lineWidth = 20;
+				Game.context.strokeStyle = "black";
+				Game.context.moveTo(45, 507);
+				Game.context.lineTo(55, 607)
+				Game.context.stroke();
+			}
+		},
+		"rightPlayer": {
+			draw: function(){
+				Game.context.beginPath();
+				Game.context.lineWidth = 20;
+				Game.context.strokeStyle = "black";
+				Game.context.moveTo(1020, 150);
+				Game.context.lineTo(1040, 250)
+				Game.context.stroke();
+			}
+		},
+		"backButton": new RectButton(780, 0, 315, 75, "cyan", "<- BACK", "60px Comic Sans MS")
 	},
-	"rightPlayer": {
-		draw: function(){
-			Game.context.beginPath();
-			Game.context.lineWidth = 20;
-			Game.context.strokeStyle = "black";
-			Game.context.moveTo(1020, 150);
-			Game.context.lineTo(1040, 250)
-			Game.context.stroke();
-		}
-	},
-	"backButton": new Rectangle(780, 0, 315, 75, "cyan"),
-	"backText": new Text(780 + 150, 60, "<- BACK", "60px Comic Sans MS"),
-	"resetButton": new Circle(0, 0, 50, "red"),
-	"resetText": new Text(50, 100 - 35, "RESET", "30px Comic Sans MS")
 }
 
 var WormThumb = {
@@ -148,32 +126,27 @@ var WormThumb = {
 	},
 	update: function(){
 		if(!Game.click.isNull()){
-			if(Game.Elements["resetButton"].contains(Game.click)){
-				Game.click.clear();
-				Game.reset();
-			}
-			if(Game.Elements["backButton"].contains(Game.click)){
+			if(this.elements["backButton"].container.contains(Game.click)){
 				Game.click.clear();;
 				console.log("Moving to Game Selection");
 				Game.load(Game_Selection);
 			}
 		}
 	},
-	"background": new Rectangle(0, 0, 1080, 768, "white"),
-	"border": {
-		draw: function(){
-			Game.context.lineWidth = 5;
-			Game.context.strokeRect(12, 105, 1055, 655);
-		}
-	},
-	"bottomSegment": new Rectangle(62, 655, 200, 25, "green"),
-	"middleSegment": new Rectangle(62, 455, 25, 200, "green"),
-	"topSegment": new Rectangle(62, 430, 250, 25, "green"),
-	"apple": new Rectangle(365, 430, 25, 25, "red"),
-	"backButton": new Rectangle(780, 0, 315, 75, "cyan"),
-	"backText": new Text(780 + 150, 60, "<- BACK", "60px Comic Sans MS"),
-	"resetButton": new Circle(0, 0, 50, "red"),
-	"resetText": new Text(50, 100 - 35, "RESET", "30px Comic Sans MS")
+	elements: {
+		"background": new Rectangle(0, 0, 1080, 768, "white"),
+		"border": {
+			draw: function(){
+				Game.context.lineWidth = 5;
+				Game.context.strokeRect(12, 105, 1055, 655);
+			}
+		},
+		"bottomSegment": new Rectangle(62, 655, 200, 25, "green"),
+		"middleSegment": new Rectangle(62, 455, 25, 200, "green"),
+		"topSegment": new Rectangle(62, 430, 250, 25, "green"),
+		"apple": new Rectangle(365, 430, 25, 25, "red"),
+		"backButton": new RectButton(780, 0, 315, 75, "cyan", "<- BACK", "60px Comic Sans MS")
+	}
 }
 
 var BarrelRollerThumb = {
@@ -182,28 +155,22 @@ var BarrelRollerThumb = {
 	},
 	update: function(){
 		if(!Game.click.isNull()){
-			if(Game.Elements["resetButton"].contains(Game.click)){
-				Game.click.clear();
-				Game.reset();
-			}
-			if(Game.Elements["backButton"].contains(Game.click)){
+			if(this.elements["backButton"].container.contains(Game.click)){
 				Game.click.clear();;
 				console.log("Moving to Game Selection");
 				Game.load(Game_Selection);
 			}
 		}
 	},
-	"background": new ImageObj(0, 0, 1080, 768, "Images/BarrelRoller/BarrelRollerBG.png"),
-	"floor": new Rectangle(0, 512, 1080, 5, "black"),
-	"barrel": new ImageObj(110, 452, 60, 60, "Images/BarrelRoller/BarrelRollerPlayer.png"),
-	"barrelRoller": new ImageObj(50, 452, 60, 60, "Images/BarrelRoller/BarrelRollerPlayerRoller.png"),
-	"enemyShort": new ImageObj(550, 472, 60, 40, "Images/BarrelRoller/BarrelRollerEnemy.png"),
-	"enemyTall": new ImageObj(830, 437, 60, 75, "Images/BarrelRoller/BarrelRollerEnemy.png"),
-	"backButton": new Rectangle(780, 0, 315, 75, "cyan"),
-	"backText": new Text(780 + 150, 60, "<- BACK", "60px Comic Sans MS"),
-	"resetButton": new Circle(0, 0, 50, "red"),
-	"resetText": new Text(50, 100 - 35, "RESET", "30px Comic Sans MS")
-	
+	elements: {
+		"background": new ImageObj(0, 0, 1080, 768, "Images/BarrelRoller/BarrelRollerBG.png"),
+		"floor": new Rectangle(0, 512, 1080, 5, "black"),
+		"barrel": new ImageObj(110, 452, 60, 60, "Images/BarrelRoller/BarrelRollerPlayer.png"),
+		"barrelRoller": new ImageObj(50, 452, 60, 60, "Images/BarrelRoller/BarrelRollerPlayerRoller.png"),
+		"enemyShort": new ImageObj(550, 472, 60, 40, "Images/BarrelRoller/BarrelRollerEnemy.png"),
+		"enemyTall": new ImageObj(830, 437, 60, 75, "Images/BarrelRoller/BarrelRollerEnemy.png"),
+		"backButton": new RectButton(780, 0, 315, 75, "cyan", "<- BACK", "60px Comic Sans MS")
+	}
 	//drawing Barrel
 	/*"barrelOuter": new Circle(156, 0, 384, "grey"),
 	"barrelTop": new Circle(166, 10, 374, "#654321"),
@@ -227,214 +194,112 @@ var BarrelRollerThumb = {
 	"barrelText": new Text(536, 384, "DMC", "80px Comic Sans MS"),*/
 }
 
-var WormGame = {
+var Worm = {
 	start: function(){
 		console.log("loaded Worm");
-		Game.gh = {
-			direction: [1, 0],
-			started: false,
-			points: 0,
-			gridDim: [42, 26],
-			worm: [[20, 12]],
-			apple: null,
-			prevMovement: [],
-			blockSize: 25,
-			changeDir: function(v){
-				if (v.map(Math.abs).indexOf(1) != this.direction.map(Math.abs).indexOf(1)){
-					direction.writeArray(v);
+		this.dim = [41, 25];
+		this.worm = [[Math.floor(Math.random() * this.dim[0]), Math.floor(Math.random() * this.dim[1])]];
+		this.apple = null;
+		this.direction = [1, 0];
+		this.playing = false;
+		this.offset = [15, 108];
+		this.lastMoved = [1, 0];
+		this.points = 0;
+		this.newDir = function(v){
+			if (v.map(Math.abs).indexOf(1) != this.lastMoved.map(Math.abs).indexOf(1) || Worm.worm.length == 1){
+				this.direction = v;
+			}
+		}
+		this.move = function(){
+			let head = [].concat(this.worm[this.worm.length - 1]);
+			head[0] += this.direction[0];
+			head[1] += this.direction[1];
+			for(part of this.worm){
+				if(part[0] == head[0] && part[1] == head[1]){
+					this.playing = false;
+					return false;
 				}
 			}
+			if(head[0] > this.dim[0] || head[0] < 0 || head[1] > this.dim[1] || head[1] < 0){
+				this.playing = false;
+				return false;
+			}
+			if(this.apple != null){
+				if(head[0] == this.apple[0] && head[1] == this.apple[1]){
+					this.points++;
+					this.elements.score.value = `Points: ${this.points}`;
+					this.worm = [this.worm[0]].concat(this.worm);
+					this.apple = null;
+				}
+			}
+			while(this.apple == null){
+				this.apple = [Math.floor(Math.random() * this.dim[0]), Math.floor(Math.random() * this.dim[1])];
+				for(part of this.worm){
+					if(part == this.apple) this.apple = null;
+				}
+			}
+			
+			this.worm.push(head);
+			this.worm = this.worm.slice(1);
+			this.lastMoved = this.direction;
+			return true;
 		}
 	},
 	update: function(){
-		if(this.started){
-			if(Game.keys){
-				if (Game.keys[65]) Game.gh.changeDir(-1, 0);
-				if (Game.keys[68]) Game.gh.changeDir(1, 0);
-				if (Game.keys[87]) Game.gh.changeDir(0, -1);
-				if (Game.keys[83]) Game.gh.changeDir(0, 1);
+		if(!Game.click.isNull()){
+			if(this.elements["playButton"].container.contains(Game.click)){
+				if(!this.playing) this.playing = true;
+				Game.click.clear();
 			}
+			if(this.elements["backButton"].container.contains(Game.click)){
+				Game.click.clear();;
+				console.log("Moving to Game Selection");
+				Game.load(Game_Selection);
+			}
+		}
+		if(this.playing){
+			if(Game.keys){
+				if (Game.keys[65] || Game.keys[37]) this.newDir([-1, 0]);
+				if (Game.keys[68] || Game.keys[39]) this.newDir([1, 0]);
+				if (Game.keys[87] || Game.keys[38]) this.newDir([0, -1]);
+				if (Game.keys[83] || Game.keys[40]) this.newDir([0, 1]);
+			}
+			if(Game.checkTick(10)){
+				if(!this.move()){
 
-		}
-	},
-	"background": new Rectangle(0, 0, 1080, 768, "white"),
-	"border": {
-		draw: function(){
-			Game.context.lineWidth = 5;
-			Game.context.strokeRect(12, 105, 1055, 655);
-		}
-	},
-	"GameArea": new Rectangle(15, 108, 1050, 650),
-	"player": {
-		draw: function(){
-			if(Game.gh != null){
-				for(var part of Game.gh.worm){
-					Game.context.fillStyle = "green";
-					Game.context.fillRect(part[0] * Game.gh.blockSize + 15, part[1] * Game.gh.blockSize + 108, Game.gh.blockSize, Game.gh.blockSize);
 				}
 			}
+
 		}
-	}
-
-	/*
-
-
-	var vel = [1, 0],
-		notstarted = true,
-		t = 300,
-		lemon = null,
-		timeToLemon = 1,
-		points = 0,
-		gridSize = 20,
-		body = [[(gridSize/2|0)-1, (gridSize/2|0)-1]],
-		lastMoved = [],
-		highScore = Number(localStorage.getItem("highScore")) || 0,
-		canvas = document.getElementById("c"),
-		squareSize = canvas.width / gridSize,
-		ctx = canvas.getContext("2d");
-
-	var ptingImg = new Image();
-	ptingImg.src = "pting.png";
-
-	var lemonImg = new Image();
-	lemonImg.src = "lemon.png";
-
-
-	addEventListener("keydown", function(e){
-		startGame();
-
-		switch(e.key){
-			case "w":
-			case "ArrowUp":
-				changeVel([0, -1]);
-				break;
-			case "d":
-			case "ArrowRight":
-				changeVel([1, 0]);
-				break;
-			case "s":
-			case "ArrowDown":
-				changeVel([0, 1]);
-				break;
-			case "a":
-			case "ArrowLeft":
-				changeVel([-1, 0]);
-				break;
-
-			case "m":
-				music.playing() ? music.stop() : music.play();
-				localStorage.setItem("mute", music.playing() ? "" : "1");
-				break;
-		}
-	});
-
-	canvas.addEventListener("click", function(e){
-		startGame();
-
-		e.preventDefault();
-		let bounds = canvas.getBoundingClientRect();
-		let x = (e.clientX - bounds.x) - canvas.width/2,
-			y = (e.clientY - bounds.y) - canvas.height/2;
-
-		if(y > Math.abs(x)){
-			changeVel([0, 1]);
-		} else if(-y > Math.abs(x)){
-			changeVel([0, -1]);
-		} else if(x > Math.abs(y)){
-			changeVel([1, 0]);
-		} else if(-x > Math.abs(y)){
-			changeVel([-1, 0]);
-		}
-	});
-
-	function startGame(){
-		if(notstarted){
-			if(!localStorage.getItem("mute"))
-				music.play();
-			notstarted = false;
-			GameLoop();
-		}
-	}
-
-
-	function changeVel(v){
-		if(lastMoved[1-v.indexOf(0)] != -v[1-v.indexOf(0)] || body.length == 1)
-			vel = v;
-	}
-
-
-	function GameOver(m){
-		if(points > highScore)
-			localStorage.setItem("highScore", points.toString());
-
-		music.stop();
-		(new Audio("rarg.mp3")).play().then(function(){
-			alert(m + "\n\npting has collected " + points + " lemon" + (points == 1 ? "" : "s"));
-			location.reload();
-		});
-	}
-
-	function draw(){
-		ctx.fillStyle = "#222";
-		ctx.fillRect(0, 0, canvas.width, canvas.width);
-
-		if(lemon)
-			ctx.drawImage(lemonImg, lemon[0] * squareSize, lemon[1] * squareSize, squareSize, squareSize);
-
-		for(var b of body)
-			ctx.drawImage(ptingImg, b[0] * squareSize, b[1] * squareSize, squareSize, squareSize);
-
-		ctx.fillStyle = "#fff";
-		ctx.font = "20px Georgia";
-		ctx.fillText("lemons: " + points, 3, 23);
-		ctx.fillText("highscore: " + highScore, 3, 46);
-	}
-
-	function GameLoop(){
-		let n = [].concat(body[body.length - 1]);
-
-		n[0] += vel[0];
-		n[1] += vel[1];
-
-		if(n[0] >= gridSize || n[0] < 0 || n[1] >= gridSize || n[1] < 0)
-			return GameOver("you ran into a wall and binged your head :(");
-
-		for(var b of body){
-			if(b[0] == n[0] && b[1] == n[1])
-				return GameOver("you have crashed into one of your fellow ptings, causing a quite a dispute :(");
-		}
-
-		if(timeToLemon <= 0 && !lemon){
-			timeToLemon = 10;
-			lemon = [(Math.random() * gridSize)|0, (Math.random() * gridSize)|0];
-			t = Math.max(t - (t/20)|0, 100);
-		} else
-			timeToLemon--;
-
-		if(lemon)
-			if(body[body.length-1][0] == lemon[0] && body[body.length-1][1] == lemon[1]){
-				lemon = null;
-				points += 1;
-				(new Audio("munch.mp3")).play();
-
-				body = [body[0]].concat(body);
+	},
+	elements: {
+		"background": new Rectangle(0, 0, 1080, 768, "white"),
+		"border": {
+			draw: function(){
+				Game.context.lineWidth = 5;
+				Game.context.strokeRect(12, 105, 1055, 655);
 			}
-
-		lastMoved = vel;
-
-		body.push(n);
-		body = body.slice(1);
-
-		draw();
-		setTimeout(function(){
-			GameLoop();
-		}, t);
+		},
+		"player": {
+			draw: function(){
+				if(Worm.worm != null){
+					for (part of Worm.worm) {
+						Game.context.fillStyle = "green";
+						Game.context.fillRect(part[0] * 25 + Worm.offset[0], part[1] * 25 + Worm.offset[1], 25, 25);
+					}
+				}
+			}
+		},
+		"apple": {
+			draw: function(){
+				if(Worm.apple != null){
+					Game.context.fillStyle = "red";
+					Game.context.fillRect(Worm.apple[0] * 25 + Worm.offset[0], Worm.apple[1] * 25 + Worm.offset[1], 25, 25);
+				}
+			}
+		},
+		"score": new Text(540, 98, `Points: 0`, "80px Comic Sans MS"),
+		"backButton": new RectButton(780, 0, 315, 75, "cyan", "<- BACK", "60px Comic Sans MS"),
+		"playButton": new CircleButton(0, 0, 50, "green", "PLAY", "30px Comic Sans MS")
 	}
-	
-	draw();
-
-	*/
-	
-	//"score": new Text(540, 78, "Length: 1")
-
 }

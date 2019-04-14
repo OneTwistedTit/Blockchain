@@ -10,13 +10,15 @@ var Game = {
     this.frame = 0;
     this.Elements = {}
     this.music = new Audio();
-    this.updateElements = null;
-    this.gh = null;
     this.music.loop = true;
+    if(localStorage.muted === undefined){
+      localStorage.setItem("muted", "false");
+    }
     this.music.handler = {
       playAudio: async function(src){
         try{
           Game.music.src = src;
+          Game.music.muted = JSON.parse(localStorage.muted)
           await Game.music.play();
           console.log("playing: " + src);
         } catch(err) {
@@ -24,6 +26,7 @@ var Game = {
         }
       },
       mute: function(){
+        localStorage.muted = !Game.music.muted
         Game.music.muted = !Game.music.muted;
       }
     }
@@ -66,17 +69,11 @@ var Game = {
     location.reload();
   },
   load: function(map) {
-    this.Elements = {};
-    this.gh = null;
-    var i;
-    for (i in map){
-      this.Elements[i] = map[i];
+    for (var i in map.elements){
+      this.Elements[i] = map.elements[i];
     }
-    this.updateElements = this.Elements.update;
-    delete this.Elements.update;
-    this.Elements.start();
-    delete this.Elements.start;
-    
+    this.current = map
+    this.current.start();
   },
   Screenshot: function(){
     var link = document.createElement("a");

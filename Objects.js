@@ -1,36 +1,3 @@
-Vector2 = function(x, y){
-	this.x = x;
-	this.y = y;
-
-	this.prevX = null;
-	this.prevY = null;
-
-	this.set = function(x, y){
-		this.prevX = this.x;
-		this.prevY = this.y;
-
-		this.x = x;
-		this.y = y;
-	}
-	this.distance = function(vec2){
-		if(vec2 != null){
-			return Math.sqrt((vec2.x - this.x) ** 2 + (vec2.y - this.y) ** 2);
-		} else {
-			return Math.sqrt((this.prevX - this.x) ** 2 + (this.prevY - this.y) ** 2);
-		}
-	}
-	this.hasChanged = function(){
-		if(this.x != this.prevX || this.y != this.prevY) return true;
-		return false;
-	}
-	this.toArray = function(){
-		return [this.x, this.y];
-	}
-	this.writeArray = function(arrXY){
-		this.set(arrXY[0], arrXY[1]);
-	}
-}
-
 Rectangle = function(x, y, width, height, color){
 	this.x = x;
 	this.y = y;
@@ -109,5 +76,49 @@ ImageObj = function(x, y, width, height, src){
 	this.image.src = src;
 	this.draw = function(){
 		Game.context.drawImage(this.image, this.rect.x, this.rect.y, this.rect.width, this.rect.height);
+	}
+}
+RectButton = function(x, y, width, height, color, text, font){
+	this.x = x;
+	this.y = y;
+	this.width = width;
+	this.height = height;
+	this.color = color;
+
+	if(!font || font == null){
+		this.font = "100px Comic Sans MS";
+	} else {
+		this.font = font
+	}
+
+	this.container = new Rectangle(this.x, this.y, this.width, this.height, this.color);
+	if(text != null){
+		this.text = new Text(this.x + this.width / 2, this.y + this.height / 2 + (parseInt(this.font) / 3), text, this.font, null, "black");
+	}
+
+	this.draw = function(){
+		this.container.draw();
+		this.text.draw();
+	}
+}
+CircleButton = function(x, y, radius, color, text, font){
+	this.x = x;
+	this.y = y;
+	this.radius = radius;
+	this.color = color
+
+	if(!font || font == null){
+		this.font = "100px Comic Sans MS";
+	} else {
+		this.font = font
+	}
+	this.container = new Circle(this.x, this.y, this.radius, this.color);
+	if(text != null){
+		this.text = new Text(this.x + this.radius, this.y + this.radius + (parseInt(this.font)) / 3, text, this.font, null, "black");
+	}
+
+	this.draw = function(){
+		this.container.draw();
+		this.text.draw();
 	}
 }
