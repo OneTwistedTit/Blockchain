@@ -16,7 +16,7 @@ var Init_Screen = {
 
 var Start_Screen = {
 	start: function(){
-		console.log("Game started!"); 
+		console.log("Game started!");
 	},
 	update: function(){
 		if(!Game.click.isNull()){
@@ -61,7 +61,7 @@ var Game_Selection = {
 				console.log("Moving to Start Screen");
 				Game.load(Start_Screen);
 			}
-			
+
 		}
 	},
 	elements: {
@@ -237,7 +237,7 @@ var Worm = {
 					if(part == this.apple) this.apple = null;
 				}
 			}
-			
+
 			this.worm.push(head);
 			this.worm = this.worm.slice(1);
 			this.lastMoved = this.direction;
