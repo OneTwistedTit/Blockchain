@@ -11,21 +11,21 @@ var Game = {
     this.Elements = {}
     this.music = new Audio();
     this.music.loop = true;
-    if(localStorage.muted === undefined){
+    if (localStorage.muted === undefined) {
       localStorage.setItem("muted", "false");
     }
     this.music.handler = {
-      playAudio: async function(src){
-        try{
+      playAudio: async function(src) {
+        try {
           Game.music.src = src;
           Game.music.muted = JSON.parse(localStorage.muted)
           await Game.music.play();
           console.log("playing: " + src);
-        } catch(err) {
+        } catch (err) {
           throw new Error(err);
         }
       },
-      mute: function(){
+      mute: function() {
         localStorage.muted = !Game.music.muted
         Game.music.muted = !Game.music.muted;
       }
@@ -40,18 +40,18 @@ var Game = {
       Game.keys[e.keyCode] = false;
     });
     this.click = [];
-    this.click.isNull = function(){
-      if(Game.click[0] == null || Game.click[1] == null){
+    this.click.isNull = function() {
+      if (Game.click[0] == null || Game.click[1] == null) {
         return true;
       } else {
         return false;
       }
     }
-    this.click.clear = function(){
+    this.click.clear = function() {
       Game.click[0] = null;
       Game.click[1] = null;
     }
-    Game.canvas.addEventListener('click', function(e){
+    Game.canvas.addEventListener('click', function(e) {
       Game.click[0] = e.clientX - Game.canvas.getBoundingClientRect().left;
       Game.click[1] = e.clientY - Game.canvas.getBoundingClientRect().top;
     });
@@ -69,21 +69,21 @@ var Game = {
     location.reload();
   },
   load: function(map) {
-    for (var i in map.elements){
+    for (var i in map.elements) {
       this.Elements[i] = map.elements[i];
     }
     this.current = map
     this.current.start();
   },
-  Screenshot: function(){
+  Screenshot: function() {
     var link = document.createElement("a");
     link.download = "image.png";
 
-    this.canvas.toBlob(function(blob){
+    this.canvas.toBlob(function(blob) {
       link.href = URL.createObjectURL(blob);
       console.log(blob);
       console.log(link.href);
-    },'image/png');
+    }, 'image/png');
 
     link.click();
   }
