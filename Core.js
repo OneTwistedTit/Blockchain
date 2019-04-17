@@ -8,7 +8,6 @@ var Game = {
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
     this.interval = setInterval(updateGame, 20);
     this.frame = 0;
-    this.Elements = {}
     this.music = new Audio();
     this.music.loop = true;
     if (localStorage.muted === undefined) {
@@ -69,9 +68,7 @@ var Game = {
     location.reload();
   },
   load: function(map) {
-    for (var i in map.elements) {
-      this.Elements[i] = map.elements[i];
-    }
+    this.click.clear();
     this.current = map
     this.current.start();
   },

@@ -5,7 +5,7 @@ var Init_Screen = {
   update: function() {
     if (!Game.click.isNull()) {
       Game.music.handler.playAudio("Sounds/Start_Screen.mp3");
-      Game.click.clear();
+
       Game.load(Start_Screen);
     }
   },
@@ -20,8 +20,8 @@ var Start_Screen = {
   },
   update: function() {
     if (!Game.click.isNull()) {
-      if (Game.Elements["playButton"].container.contains(Game.click)) {
-        Game.click.clear();;
+      if (this.elements["playButton"].container.contains(Game.click)) {
+
         console.log("loading Game");
         Game.load(Game_Selection);
       }
@@ -42,23 +42,19 @@ var Game_Selection = {
   update: function() {
     if (!Game.click.isNull()) {
       if (this.elements["tableTennisIMG"].rect.contains(Game.click)) {
-        Game.click.clear();;
         console.log("Moving to TableTennisThumb");
         Game.load(TableTennisThumb);
       }
       if (this.elements["wormIMG"].rect.contains(Game.click)) {
-        Game.click.clear();;
         console.log("Moving to Worm");
         Game.load(Worm);
       }
       if (this.elements["barrelRollerIMG"].rect.contains(Game.click)) {
-        Game.click.clear();;
         console.log("Moving to BarrelRollerThumb");
         Game.load(BarrelRollerThumb);
       }
       if (this.elements["backButton"].container.contains(Game.click)) {
-        Game.click.clear();;
-        console.log("Moving to Start Screen");
+        console.log("Moving to Game Selection");
         Game.load(Start_Screen);
       }
 
@@ -72,7 +68,7 @@ var Game_Selection = {
     "wormIMG": new ImageObj(382, 200, 315, 225, "Images/Thumbnails/WormThumb.png"),
     "barrelRollerIMG": new ImageObj(708, 200, 315, 225, "Images/Thumbnails/BarrelRollerThumb.png"),
     "barrelRollerText": new Text(865, 200, "Barrel Roller", "50px Comic Sans MS", null, "white"),
-    "backButton": new RectButton(780, 0, 315, 75, "cyan", "<- BACK", "60px Comic Sans MS")
+    "backButton": new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS")
   }
 }
 
@@ -83,7 +79,6 @@ var TableTennisThumb = {
   update: function() {
     if (!Game.click.isNull()) {
       if (this.elements["backButton"].container.contains(Game.click)) {
-        Game.click.clear();
         console.log("Moving to Game Selection");
         Game.load(Game_Selection);
       }
@@ -97,8 +92,8 @@ var TableTennisThumb = {
     "net": new Rectangle(537, 134, 6, 500, "white"),
     "ball": new Circle(300, 550, 7.5, "orange"),
     "leftPlayer": {
+      enabled: true,
       draw: function() {
-				enabled: true,
         Game.context.beginPath();
         Game.context.lineWidth = 20;
         Game.context.strokeStyle = "black";
@@ -108,7 +103,7 @@ var TableTennisThumb = {
       }
     },
     "rightPlayer": {
-			enabled: true,
+      enabled: true,
       draw: function() {
         Game.context.beginPath();
         Game.context.lineWidth = 20;
@@ -118,18 +113,17 @@ var TableTennisThumb = {
         Game.context.stroke();
       }
     },
-    "backButton": new RectButton(780, 0, 315, 75, "cyan", "<- BACK", "60px Comic Sans MS")
+    "backButton": new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS")
   },
 }
 
-var WormThumb = {
+/*var WormThumb = {
   start: function() {
     console.log("loaded WormThumb");
   },
   update: function() {
     if (!Game.click.isNull()) {
       if (this.elements["backButton"].container.contains(Game.click)) {
-        Game.click.clear();;
         console.log("Moving to Game Selection");
         Game.load(Game_Selection);
       }
@@ -138,7 +132,7 @@ var WormThumb = {
   elements: {
     "background": new Rectangle(0, 0, 1080, 768, "white"),
     "border": {
-			enabled: true,
+      enabled: true,
       draw: function() {
         Game.context.lineWidth = 5;
         Game.context.strokeRect(12, 105, 1055, 655);
@@ -148,9 +142,9 @@ var WormThumb = {
     "middleSegment": new Rectangle(62, 455, 25, 200, "green"),
     "topSegment": new Rectangle(62, 430, 250, 25, "green"),
     "apple": new Rectangle(365, 430, 25, 25, "red"),
-    "backButton": new RectButton(780, 0, 315, 75, "cyan", "<- BACK", "60px Comic Sans MS")
+    "backButton": new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS")
   }
-}
+}*/
 
 var BarrelRollerThumb = {
   start: function() {
@@ -159,7 +153,6 @@ var BarrelRollerThumb = {
   update: function() {
     if (!Game.click.isNull()) {
       if (this.elements["backButton"].container.contains(Game.click)) {
-        Game.click.clear();;
         console.log("Moving to Game Selection");
         Game.load(Game_Selection);
       }
@@ -172,7 +165,7 @@ var BarrelRollerThumb = {
     "barrelRoller": new ImageObj(50, 452, 60, 60, "Images/BarrelRoller/BarrelRollerPlayerRoller.png"),
     "enemyShort": new ImageObj(550, 472, 60, 40, "Images/BarrelRoller/BarrelRollerEnemy.png"),
     "enemyTall": new ImageObj(830, 437, 60, 75, "Images/BarrelRoller/BarrelRollerEnemy.png"),
-    "backButton": new RectButton(780, 0, 315, 75, "cyan", "<- BACK", "60px Comic Sans MS")
+    "backButton": new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS")
   }
   //drawing Barrel
   /*"barrelOuter": new Circle(156, 0, 384, "grey"),
@@ -210,6 +203,7 @@ var Worm = {
     this.offset = [15, 108];
     this.lastMoved = [1, 0];
     this.points = 0;
+    this.ended = false;
     this.newDir = function(v) {
       if (v.map(Math.abs).indexOf(1) != this.lastMoved.map(Math.abs).indexOf(1) || Worm.worm.length == 1) {
         this.direction = v;
@@ -240,7 +234,6 @@ var Worm = {
           if (part == this.apple) this.apple = null;
         }
       }
-
       this.worm.push(head);
       this.worm = this.worm.slice(1);
       this.lastMoved = this.direction;
@@ -249,18 +242,19 @@ var Worm = {
   },
   update: function() {
     if (!Game.click.isNull()) {
-      if (this.elements["playButton"].container.contains(Game.click)) {
-        if (!this.playing) this.playing = true;
-        Game.click.clear();
+      if(this.elements["scoreBox"].enabled){
+        if (this.elements["scoreBox"].container.contains(Game.click)) {
+          console.log("Moving to Worm");
+          Game.load(Worm);
+        }
       }
       if (this.elements["backButton"].container.contains(Game.click)) {
-        Game.click.clear();;
         console.log("Moving to Game Selection");
         Game.load(Game_Selection);
       }
     }
     this.elements.score.value = `Points: ${this.points}`;
-    if (this.playing) {
+    if (this.playing && !this.ended) {
       if (Game.keys) {
         if (Game.keys[65] || Game.keys[37]) this.newDir([-1, 0]);
         if (Game.keys[68] || Game.keys[39]) this.newDir([1, 0]);
@@ -268,27 +262,28 @@ var Worm = {
         if (Game.keys[83] || Game.keys[40]) this.newDir([0, 1]);
       }
       if (Game.checkTick(10)) {
-        if (!this.move()) {
-					this.playing = false;
-					this.elements.scoreBox.enabled = true;
-        } else {
-					this.playing = true;
-					this.elements.scoreBox.enabled = false;
-				}
+        this.ended = !this.move()
       }
+    }
+    if (this.ended) {
+      this.playing = false;
+      this.elements.scoreBox.enabled = true;
+    } else {
+      this.playing = true;
+      this.elements.scoreBox.enabled = false;
     }
   },
   elements: {
     "background": new Rectangle(0, 0, 1080, 768, "white"),
     "border": {
-			enabled: true,
+      enabled: true,
       draw: function() {
         Game.context.lineWidth = 5;
         Game.context.strokeRect(12, 105, 1055, 655);
       }
     },
     "player": {
-			enabled: true,
+      enabled: true,
       draw: function() {
         if (Worm.worm != null) {
           for (part of Worm.worm) {
@@ -299,7 +294,7 @@ var Worm = {
       }
     },
     "apple": {
-			enabled: true,
+      enabled: true,
       draw: function() {
         if (Worm.apple != null) {
           Game.context.fillStyle = "red";
@@ -308,8 +303,19 @@ var Worm = {
       }
     },
     "score": new Text(540, 98, "Points: 0", "80px Comic Sans MS"),
-    "backButton": new RectButton(780, 0, 315, 75, "cyan", "<- BACK", "60px Comic Sans MS"),
-    "playButton": new CircleButton(0, 0, 50, "green", "PLAY", "30px Comic Sans MS"),
-    "scoreBox": new Rectangle(65, 138, 950, 589, "rgba(31, 31, 31, 0.875)")
+    "backButton": new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS"),
+    "scoreBox": new RectButton(65, 138, 950, 589, "rgba(31, 31, 31, 0.875)", "Click to play again!", "100px Comic Sans MS"),
+  }
+}
+
+BarrelRoller = {
+  start: function(){
+
+  },
+  update: function(){
+
+  },
+  elements: {
+    
   }
 }

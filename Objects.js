@@ -102,7 +102,9 @@ RectButton = function(x, y, width, height, color, text, font) {
 
   this.draw = function() {
     this.container.draw();
-    this.text.draw();
+    if (text != null) {
+      this.text.draw();
+    }
   }
 }
 CircleButton = function(x, y, radius, color, text, font) {
@@ -123,6 +125,8 @@ CircleButton = function(x, y, radius, color, text, font) {
 
   this.draw = function() {
     this.container.draw();
-    this.text.draw();
+    if (text != null) {
+      this.text.draw();
+    }
   }
 }
