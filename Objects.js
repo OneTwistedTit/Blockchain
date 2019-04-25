@@ -17,13 +17,13 @@ Rectangle = function(x, y, width, height, color) {
     }
   }
   this.intersects = function(other) {
-    if (this.contains(other.x, other.y) || this.contains(other.x + other.width, other.y) ||
-      this.contains(other.x, other.y + other.height) ||
-      this.contains(other.x + other.width, other.y + other.height)) {
+    if (this.contains([other.x, other.y]) || this.contains([other.x + other.width, other.y]) ||
+      this.contains([other.x, other.y + other.height]) ||
+      this.contains([other.x + other.width, other.y + other.height])) {
       return true;
-    } else if (other.contains(this.x, this.y) || other.contains(this.x + this.width, this.y) ||
-      other.contains(this.x, this.y + this.height) ||
-      other.contains(this.x + this.width, this.y + this.height)) {
+    } else if (other.contains([this.x, this.y]) || other.contains([this.x + this.width, this.y]) ||
+      other.contains([this.x, this.y + this.height]) ||
+      other.contains([this.x + this.width, this.y + this.height])) {
       return true;
     } else {
       return false;
