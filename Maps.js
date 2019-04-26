@@ -393,7 +393,7 @@ Hopper = {
       }
       this.ended = !this.move();
     }
-    this.elements.score.value = `Points: ${this.points}`;
+    //this.elements.score.value = `Points: ${this.points}`;
     if (this.ended) {
       this.playing = false;
       this.elements.restart.enabled = true;
@@ -417,8 +417,8 @@ Hopper = {
         }
       }
     },
-    score: new Text(540, 98, "Points: 0", "80px Comic Sans MS"),
+    /*score: new Text(540, 98, "Points: 0", "80px Comic Sans MS")
     backButton: new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS"),
-    restart: new RectButton(65, 138, 950, 589, "rgba(31, 31, 31, 0.875)", "Click to play again!", "100px Comic Sans MS")
+    restart: new RectButton(65, 138, 950, 589, "rgba(31, 31, 31, 0.875)", "Click to play again!", "100px Comic Sans MS")*/
   }
 }
