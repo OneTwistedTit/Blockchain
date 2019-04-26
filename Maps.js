@@ -180,7 +180,7 @@ var PingPong = {
 
     this.moveBall();
 
-    this.elements.score.value = `${this.points[0]} : ${this.points[1]}`;
+    //this.elements.score.value = `${this.points[0]} : ${this.points[1]}`;
     this.elements.leftPlayer = this.leftPlayer;
     this.elements.rightPlayer = this.rightPlayer;
     this.elements.ball = this.ball;
@@ -192,9 +192,9 @@ var PingPong = {
         Game.context.lineWidth = 5;
         Game.context.strokeRect(12, 105, 1055, 655);
       }
-    },
-    score: new Text(540, 98, "0 : 0", "80px Comic Sans MS"),
-    backButton: new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS")
+    }
+    //score: new Text(540, 98, "0 : 0", "80px Comic Sans MS"),
+    //backButton: new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS")
   }
 }
 
