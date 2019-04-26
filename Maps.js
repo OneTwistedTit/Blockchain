@@ -273,7 +273,7 @@ var Worm = {
         if (Game.keys[87] || Game.keys[38]) this.newDir([0, -1]);
         if (Game.keys[83] || Game.keys[40]) this.newDir([0, 1]);
       }
-      if (Game.checkTick(8)) {
+      if (Game.checkFrame(8)) {
         this.ended = !this.move()
       }
     }
@@ -333,7 +333,9 @@ Hopper = {
     this.ended = false;
     this.obstacles = [];
     this.acceleration = 0.01;
-    this.speed = 20;
+    this.speed = 10;
+    this.nextTime = 15 + (Math.random() * 10);
+    this.nextSize = 48 + (Math.random() * 16);
     this.points = 0;
     this.move = function(){
       for (i = this.obstacles.length - 1; i >= 0; i--){
@@ -346,15 +348,16 @@ Hopper = {
           this.obstacles.splice(i, 1);
         }
       }
-      this.player.velY += 4; //gravity
+      this.player.velY += 1.5; //gravity
       this.player.y += this.player.velY;
-      this.player.velY *= 0.85; //friction
+      this.player.velY *= 0.95; //friction
       if(this.player.y + this.player.height > this.elements.floor.y){
         this.player.jumping = false;
         this.player.velY = 0;
         this.player.y = this.elements.floor.y - this.player.height;
       }
       this.elements.player.y = this.player.y;
+      this.points++;
       return true;
     }
   },
@@ -373,16 +376,22 @@ Hopper = {
     }
     if (Game.keys) {
       if ((Game.keys[87] || Game.keys[38] || Game.keys[32]) && !this.player.jumping){
-        this.player.velY -= 64;
+        this.player.velY -= 30;
         this.player.jumping = true;
       }
     }
-    if(Game.checkTick(1000 / this.speed)){
-      this.obstacles.push(new Rectangle(1080, 464, 48, 48, "red"))
-    }
     if(this.playing && !this.ended){
-      this.ended = !this.move()
-      this.points++;
+      if(Game.checkFrame(Math.round(1000 / this.nextTime))){
+        this.obstacles.push(new Rectangle(1080, 512 - this.nextSize, this.nextSize, this.nextSize, "red"));
+        this.nextSize = 32 + (Math.random() * 16);
+        this.nextTime = this.nextSize / 4;
+        if(this.obstacles.length >= 2){
+          if(this.obstacles[this.obstacles.length - 1].intersects(this.obstacles[this.obstacles.length - 2])){
+            this.obstacles.pop()
+          }
+        }
+      }
+      this.ended = !this.move();
     }
     this.elements.score.value = `Points: ${this.points}`;
     if (this.ended) {

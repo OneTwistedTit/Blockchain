@@ -6,7 +6,7 @@ var Game = {
     this.context = this.canvas.getContext("2d");
     this.canvas.style = "border-style: solid; border-width: 2px; display: block; margin: auto;"
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-    this.interval = setInterval(updateGame, 20);
+    this.animationID = window.requestAnimationFrame(updateGame);
     this.frame = 0;
     this.music = new Audio();
     this.music.loop = true;
@@ -55,7 +55,7 @@ var Game = {
       Game.click[1] = e.clientY - Game.canvas.getBoundingClientRect().top;
     });
   },
-  checkTick: function(ticks) {
+  checkFrame: function(ticks) {
     if ((this.frame / ticks) % 1 == 0) {
       return true;
     }
