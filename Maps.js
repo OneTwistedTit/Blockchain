@@ -43,7 +43,7 @@ var Game_Selection = {
     if (!Game.click.isNull()) {
       if (this.elements["tableTennisIMG"].rect.contains(Game.click)) {
         console.log("Moving to TableTennisThumb");
-        Game.load(TableTennisThumb);
+        Game.load(PingPong);
       }
       if (this.elements["wormIMG"].rect.contains(Game.click)) {
         console.log("Moving to Worm");
@@ -62,12 +62,12 @@ var Game_Selection = {
   },
   elements: {
     background: new Rectangle(0, 0, 1080, 768, "black"),
-    tableTennisText: new Text(215, 195, "Table Tennis", "50px Comic Sans MS", null, "white"),
+    tableTennisText: new Text(215, 170, "Ping Pong", "50px Comic Sans MS", null, "white"),
     tableTennisIMG: new ImageObj(57, 200, 315, 225, "Images/Thumbnails/TableTennisThumb.png"),
-    wormText: new Text(540, 195, "Worm", "50px Comic Sans MS", null, "white"),
+    wormText: new Text(540, 170, "Worm", "50px Comic Sans MS", null, "white"),
     wormIMG: new ImageObj(382, 200, 315, 225, "Images/Thumbnails/WormThumb.png"),
     hopperIMG: new ImageObj(708, 200, 315, 225, "Images/Thumbnails/HopperThumb.png"),
-    hopperText: new Text(865, 195, "Hopper", "50px Comic Sans MS", null, "white"),
+    hopperText: new Text(865, 170, "Hopper", "50px Comic Sans MS", null, "white"),
     backButton: new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS")
   }
 }
@@ -120,13 +120,81 @@ var TableTennisThumb = {
 
 var PingPong = {
   start: function(){
+    console.log("loaded PingPong");
+    this.points = [0, 0];
+    this.playerSpeed = 5
+    this.leftPlayer = new Rectangle(65, 360, 20, 150, "green");
+    this.rightPlayer = new Rectangle(995, 360, 20, 150, "green");
+    this.ball = new Rectangle(532, 435, 20, 20, "red");
+    this.ballVel = [5, 5];
+    this.moveBall = function(){
+      if(this.ball.y <= 108) this.ballVel[1] = -this.ballVel[1];
+      if(this.ball.y + this.ball.height >= 758) this.ballVel[1] = -this.ballVel[1];
+      if(this.ball.intersects(this.leftPlayer) || this.ball.intersects(this.rightPlayer)){
+        this.ballVel[0] = -this.ballVel[0]
+      }
+      if(this.ball.x <= 15){
+        this.points[1]++;
+        this.ballVel = [5, 5];
+        this.ball.x = 532;
+        this.ball.y = 435;
+      }
+      if(this.ball.x + this.ball.width >= 1070){
+        this.points[0]++;
+        this.ballVel = [-5, 5];
+        this.ball.x = 532;
+        this.ball.y = 435;
+      }
 
+      this.ball.x += this.ballVel[0];
+      this.ball.y += this.ballVel[1];
+
+    }
   },
   update: function(){
+    if (!Game.click.isNull()) {
+      if (this.elements["backButton"].container.contains(Game.click)) {
+        console.log("Moving to Game Selection");
+        Game.load(Game_Selection);
+      }
+    }
+    if (Game.keys) {
+      if (Game.keys[83]) this.leftPlayer.y += this.playerSpeed;
+      if (Game.keys[87]) this.leftPlayer.y -= this.playerSpeed;
+      if (Game.keys[40]) this.rightPlayer.y += this.playerSpeed;
+      if (Game.keys[38]) this.rightPlayer.y -= this.playerSpeed;
+    }
 
+    if(this.leftPlayer.y <= 108){
+      this.leftPlayer.y = 108;
+    }
+    if(this.leftPlayer.y + this.leftPlayer.height >= 758){
+      this.leftPlayer.y = 758 - this.leftPlayer.height;
+    }
+    if(this.rightPlayer.y <= 108){
+      this.rightPlayer.y = 108;
+    }
+    if(this.rightPlayer.y + this.rightPlayer.height >= 758){
+      this.rightPlayer.y = 758 - this.rightPlayer.height;
+    }
+
+    this.moveBall();
+
+    this.elements.score.value = `${this.points[0]} : ${this.points[1]}`;
+    this.elements.leftPlayer = this.leftPlayer;
+    this.elements.rightPlayer = this.rightPlayer;
+    this.elements.ball = this.ball;
   },
-  elements:{
-
+  elements: {
+    border: {
+      enabled: true,
+      draw: function() {
+        Game.context.lineWidth = 5;
+        Game.context.strokeRect(12, 105, 1055, 655);
+      }
+    },
+    score: new Text(540, 98, "0 : 0", "80px Comic Sans MS"),
+    backButton: new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS")
   }
 }
 
@@ -250,6 +318,7 @@ var Worm = {
 
 Hopper = {
   start: function(){
+    console.log("loaded Hopper");
     this.player = {
       jumping: true,
       x: Hopper.elements.player.x,
