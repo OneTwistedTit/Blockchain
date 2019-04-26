@@ -66,8 +66,8 @@ var Game_Selection = {
     tableTennisIMG: new ImageObj(57, 200, 315, 225, "Images/Thumbnails/TableTennisThumb.png"),
     wormText: new Text(540, 195, "Worm", "50px Comic Sans MS", null, "white"),
     wormIMG: new ImageObj(382, 200, 315, 225, "Images/Thumbnails/WormThumb.png"),
-    hopperIMG: new ImageObj(708, 200, 315, 225, "Images/Thumbnails/BarrelRollerThumb.png"),
-    hopperText: new Text(865, 200, "Hopper", "50px Comic Sans MS", null, "white"),
+    hopperIMG: new ImageObj(708, 200, 315, 225, "Images/Thumbnails/HopperThumb.png"),
+    hopperText: new Text(865, 195, "Hopper", "50px Comic Sans MS", null, "white"),
     backButton: new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS")
   }
 }
@@ -117,78 +117,6 @@ var TableTennisThumb = {
   },
 }
 
-/*var WormThumb = {
-  start: function() {
-    console.log("loaded WormThumb");
-  },
-  update: function() {
-    if (!Game.click.isNull()) {
-      if (this.elements["backButton"].container.contains(Game.click)) {
-        console.log("Moving to Game Selection");
-        Game.load(Game_Selection);
-      }
-    }
-  },
-  elements: {
-    "background": new Rectangle(0, 0, 1080, 768, "white"),
-    "border": {
-      enabled: true,
-      draw: function() {
-        Game.context.lineWidth = 5;
-        Game.context.strokeRect(12, 105, 1055, 655);
-      }
-    },
-    "bottomSegment": new Rectangle(62, 655, 200, 25, "green"),
-    "middleSegment": new Rectangle(62, 455, 25, 200, "green"),
-    "topSegment": new Rectangle(62, 430, 250, 25, "green"),
-    "apple": new Rectangle(365, 430, 25, 25, "red"),
-    "backButton": new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS")
-  }
-}*/
-
-var BarrelRollerThumb = {
-  start: function() {
-    console.log("loaded BarrelRollerThumb");
-  },
-  update: function() {
-    if (!Game.click.isNull()) {
-      if (this.elements["backButton"].container.contains(Game.click)) {
-        console.log("Moving to Game Selection");
-        Game.load(Game_Selection);
-      }
-    }
-  },
-  elements: {
-    background: new ImageObj(0, 0, 1080, 768, "Images/BarrelRoller/BarrelRollerBG.png"),
-    floor: new Rectangle(0, 512, 1080, 5, "black"),
-    barrel: new ImageObj(110, 452, 60, 60, "Images/BarrelRoller/BarrelRollerPlayer.png"),
-    barrelRoller: new ImageObj(50, 452, 60, 60, "Images/BarrelRoller/BarrelRollerPlayerRoller.png"),
-    enemyShort: new ImageObj(550, 472, 60, 40, "Images/BarrelRoller/BarrelRollerEnemy.png"),
-    enemyTall: new ImageObj(830, 437, 60, 75, "Images/BarrelRoller/BarrelRollerEnemy.png"),
-    backButton: new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS")
-  }
-  //drawing Barrel
-  /*"barrelOuter": new Circle(156, 0, 384, "grey"),
-  "barrelTop": new Circle(166, 10, 374, "#654321"),
-  "barrelLines": {
-  	draw: function(){
-  		Game.context.beginPath();
-  		Game.context.lineWidth = 5;
-  		Game.context.moveTo(540, 10);
-  		Game.context.lineTo(540, 758);
-  		Game.context.stroke();
-  		Game.context.beginPath();
-  		Game.context.moveTo(353, 61);
-  		Game.context.lineTo(353, 709);
-  		Game.context.stroke();
-  		Game.context.beginPath();
-  		Game.context.moveTo(727, 61);
-  		Game.context.lineTo(727, 709);
-  		Game.context.stroke();
-  	}
-  },
-  "barrelText": new Text(536, 384, "DMC", "80px Comic Sans MS"),*/
-}
 
 var PingPong = {
   start: function(){
@@ -393,7 +321,7 @@ Hopper = {
       }
       this.ended = !this.move();
     }
-    //this.elements.score.value = `Points: ${this.points}`;
+    this.elements.score.value = `Points: ${this.points}`;
     if (this.ended) {
       this.playing = false;
       this.elements.restart.enabled = true;
@@ -417,8 +345,8 @@ Hopper = {
         }
       }
     },
-    /*score: new Text(540, 98, "Points: 0", "80px Comic Sans MS")
+    score: new Text(540, 98, "Points: 0", "80px Comic Sans MS"),
     backButton: new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS"),
-    restart: new RectButton(65, 138, 950, 589, "rgba(31, 31, 31, 0.875)", "Click to play again!", "100px Comic Sans MS")*/
+    restart: new RectButton(65, 138, 950, 589, "rgba(31, 31, 31, 0.875)", "Click to play again!", "100px Comic Sans MS")
   }
 }
