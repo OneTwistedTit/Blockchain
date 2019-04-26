@@ -1,12 +1,10 @@
-var Init_Screen = {
+var InitScreen = {
   start: function() {
     console.log("Initializing Game...");
   },
   update: function() {
     if (!Game.click.isNull()) {
-      Game.music.handler.playAudio("Sounds/Start_Screen.mp3");
-
-      Game.load(Start_Screen);
+      Game.load(StartScreen);
     }
   },
   elements: {
@@ -14,16 +12,17 @@ var Init_Screen = {
   }
 }
 
-var Start_Screen = {
+var StartScreen = {
   start: function() {
     console.log("Game started!");
+    Game.music.handler.playAudio("Sounds/Main.mp3", 1.0);
   },
   update: function() {
     if (!Game.click.isNull()) {
       if (this.elements["playButton"].container.contains(Game.click)) {
 
         console.log("loading Game");
-        Game.load(Game_Selection);
+        Game.load(GameSelection);
       }
     }
   },
@@ -35,35 +34,39 @@ var Start_Screen = {
     playButton: new RectButton(340, 334, 400, 200, "green", "PLAY", "120px Comic Sans MS"),
   }
 }
-var Game_Selection = {
+var GameSelection = {
   start: function() {
     console.log("Moved to Game Selection");
+    Game.music.handler.playAudio("Sounds/Main.mp3", 1.0);
   },
   update: function() {
     if (!Game.click.isNull()) {
-      if (this.elements["tableTennisIMG"].rect.contains(Game.click)) {
-        console.log("Moving to TableTennisThumb");
+      if (this.elements["pingPongIMG"].rect.contains(Game.click)) {
+        console.log("Moving to PingPong");
+          Game.music.handler.playAudio("Sounds/PingPong.mp3", 0.5);
         Game.load(PingPong);
       }
       if (this.elements["wormIMG"].rect.contains(Game.click)) {
         console.log("Moving to Worm");
+        Game.music.handler.playAudio("Sounds/Worm.mp3", 0.25);
         Game.load(Worm);
       }
       if (this.elements["hopperIMG"].rect.contains(Game.click)) {
         console.log("Moving to Hopper");
+        Game.music.handler.playAudio("Sounds/Hopper.mp3", 0.5);
         Game.load(Hopper);
       }
       if (this.elements["backButton"].container.contains(Game.click)) {
         console.log("Moving to Game Selection");
-        Game.load(Start_Screen);
+        Game.load(StartScreen);
       }
 
     }
   },
   elements: {
     background: new Rectangle(0, 0, 1080, 768, "black"),
-    tableTennisText: new Text(215, 170, "Ping Pong", "50px Comic Sans MS", null, "white"),
-    tableTennisIMG: new ImageObj(57, 200, 315, 225, "Images/Thumbnails/TableTennisThumb.png"),
+    pingPongText: new Text(215, 170, "Ping Pong", "50px Comic Sans MS", null, "white"),
+    pingPongIMG: new ImageObj(57, 200, 315, 225, "Images/Thumbnails/PingPongThumb.png"),
     wormText: new Text(540, 170, "Worm", "50px Comic Sans MS", null, "white"),
     wormIMG: new ImageObj(382, 200, 315, 225, "Images/Thumbnails/WormThumb.png"),
     hopperIMG: new ImageObj(708, 200, 315, 225, "Images/Thumbnails/HopperThumb.png"),
@@ -71,52 +74,6 @@ var Game_Selection = {
     backButton: new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS")
   }
 }
-
-var TableTennisThumb = {
-  start: function() {
-    console.log("loaded TableTennisThumb");
-  },
-  update: function() {
-    if (!Game.click.isNull()) {
-      if (this.elements["backButton"].container.contains(Game.click)) {
-        console.log("Moving to Game Selection");
-        Game.load(Game_Selection);
-      }
-    }
-  },
-  elements: {
-    background: new Rectangle(0, 0, 1080, 768, "white"),
-    table: new Rectangle(200, 134, 680, 500, "rgba(0, 100, 255"),
-    horizontal: new Rectangle(200, 381, 680, 5, "white"),
-    netBG: new Rectangle(535, 134, 10, 500, "black"),
-    net: new Rectangle(537, 134, 6, 500, "white"),
-    ball: new Circle(300, 550, 7.5, "orange"),
-    leftPlayer: {
-      enabled: true,
-      draw: function() {
-        Game.context.beginPath();
-        Game.context.lineWidth = 20;
-        Game.context.strokeStyle = "black";
-        Game.context.moveTo(45, 507);
-        Game.context.lineTo(55, 607)
-        Game.context.stroke();
-      }
-    },
-    rightPlayer: {
-      enabled: true,
-      draw: function() {
-        Game.context.beginPath();
-        Game.context.lineWidth = 20;
-        Game.context.strokeStyle = "black";
-        Game.context.moveTo(1020, 150);
-        Game.context.lineTo(1040, 250)
-        Game.context.stroke();
-      }
-    },
-    backButton: new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS")
-  },
-}
-
 
 var PingPong = {
   start: function(){
@@ -130,8 +87,13 @@ var PingPong = {
     this.moveBall = function(){
       if(this.ball.y <= 108) this.ballVel[1] = -this.ballVel[1];
       if(this.ball.y + this.ball.height >= 758) this.ballVel[1] = -this.ballVel[1];
-      if(this.ball.intersects(this.leftPlayer) || this.ball.intersects(this.rightPlayer)){
-        this.ballVel[0] = -this.ballVel[0]
+      if(this.ball.intersects(this.leftPlayer)){
+        this.ballVel[0] = 5;
+        Game.sfx.handler.playAudio("Sounds/bounce.mp3", 1.0);
+      }
+      if(this.ball.intersects(this.rightPlayer)){
+        this.ballVel[0] = -5;
+        Game.sfx.handler.playAudio("Sounds/bounce.mp3", 1.0);
       }
       if(this.ball.x <= 15){
         this.points[1]++;
@@ -155,7 +117,7 @@ var PingPong = {
     if (!Game.click.isNull()) {
       if (this.elements["backButton"].container.contains(Game.click)) {
         console.log("Moving to Game Selection");
-        Game.load(Game_Selection);
+        Game.load(GameSelection);
       }
     }
     if (Game.keys) {
@@ -180,7 +142,7 @@ var PingPong = {
 
     this.moveBall();
 
-    //this.elements.score.value = `${this.points[0]} : ${this.points[1]}`;
+    this.elements.score.value = `${this.points[0]} : ${this.points[1]}`;
     this.elements.leftPlayer = this.leftPlayer;
     this.elements.rightPlayer = this.rightPlayer;
     this.elements.ball = this.ball;
@@ -192,9 +154,9 @@ var PingPong = {
         Game.context.lineWidth = 5;
         Game.context.strokeRect(12, 105, 1055, 655);
       }
-    }
-    //score: new Text(540, 98, "0 : 0", "80px Comic Sans MS"),
-    //backButton: new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS")
+    },
+    score: new Text(540, 98, "0 : 0", "80px Comic Sans MS"),
+    backButton: new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS")
   }
 }
 
@@ -233,6 +195,7 @@ var Worm = {
         this.points = this.worm.length - 1;
         if (head[0] == this.apple[0] && head[1] == this.apple[1]) {
           this.worm = [this.worm[0]].concat(this.worm);
+          Game.sfx.handler.playAudio("Sounds/eat.mp3", 1.0);
           this.apple = null;
         }
       }
@@ -258,7 +221,7 @@ var Worm = {
       }
       if (this.elements["backButton"].container.contains(Game.click)) {
         console.log("Moving to Game Selection");
-        Game.load(Game_Selection);
+        Game.load(GameSelection);
       }
     }
     this.elements.score.value = `Points: ${this.points}`;
@@ -368,12 +331,13 @@ Hopper = {
       }
       if (this.elements["backButton"].container.contains(Game.click)) {
         console.log("Moving to Game Selection");
-        Game.load(Game_Selection);
+        Game.load(GameSelection);
       }
     }
     if (Game.keys) {
       if ((Game.keys[87] || Game.keys[38] || Game.keys[32]) && !this.player.jumping){
         this.player.velY -= 30;
+        Game.sfx.handler.playAudio("Sounds/jump.mp3", 1.0);
         this.player.jumping = true;
       }
     }
@@ -381,7 +345,7 @@ Hopper = {
       if(Game.checkFrame(Math.round(1000 / this.nextTime))){
         this.obstacles.push(new Rectangle(1080, 512 - this.nextSize, this.nextSize, this.nextSize, "red"));
         this.nextSize = 32 + (Math.random() * 16);
-        this.nextTime = this.nextSize / 4;
+        this.nextTime = this.nextSize / 6;
         if(this.obstacles.length >= 2){
           if(this.obstacles[this.obstacles.length - 1].intersects(this.obstacles[this.obstacles.length - 2])){
             this.obstacles.pop()

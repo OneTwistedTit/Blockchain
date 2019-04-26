@@ -1,6 +1,6 @@
 function startGame() {
   Game.start();
-  Game.load(Init_Screen);
+  Game.load(InitScreen);
 }
 
 var fps = 120;
@@ -24,6 +24,7 @@ function updateGame() {
     if (Game.keys) {
       if (Game.keys[77]) {
         Game.music.handler.mute();
+        Game.sfx.handler.mute();
         Game.keys[77] = false;
       }
     }

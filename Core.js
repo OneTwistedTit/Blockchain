@@ -9,15 +9,17 @@ var Game = {
     this.animationID = window.requestAnimationFrame(updateGame);
     this.frame = 0;
     this.music = new Audio();
+    this.sfx = new Audio();
     this.music.loop = true;
     if (localStorage.muted === undefined) {
       localStorage.setItem("muted", "false");
     }
     this.music.handler = {
-      playAudio: async function(src) {
+      playAudio: async function(src, volume) {
         try {
           Game.music.src = src;
-          Game.music.muted = JSON.parse(localStorage.muted)
+          Game.music.volume = volume;
+          Game.music.muted = JSON.parse(localStorage.muted);
           await Game.music.play();
           console.log("playing: " + src);
         } catch (err) {
@@ -27,6 +29,23 @@ var Game = {
       mute: function() {
         localStorage.muted = !Game.music.muted
         Game.music.muted = !Game.music.muted;
+      }
+    }
+    this.sfx.handler = {
+      playAudio: async function(src, volume) {
+        try {
+          Game.sfx.src = src;
+          Game.sfx.volume = volume;
+          Game.sfx.muted = JSON.parse(localStorage.muted);
+          await Game.sfx.play();
+          console.log("playing: " + src);
+        } catch (err) {
+          throw new Error(err);
+        }
+      },
+      mute: function() {
+        localStorage.muted = !Game.sfx.muted
+        Game.sfx.muted = !Game.sfx.muted;
       }
     }
     //Creates a boolean array for each key
