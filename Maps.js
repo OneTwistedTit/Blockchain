@@ -15,7 +15,9 @@ var InitScreen = {
 var StartScreen = {
   start: function() {
     console.log("Game started!");
-    Game.music.handler.playAudio("Sounds/Main.mp3", 1.0);
+    if (!Game.music.src.includes("Sounds/Main.mp3")) {
+      Game.music.handler.playAudio("Sounds/Main.mp3", 1.0);
+    }
   },
   update: function() {
     if (!Game.click.isNull()) {
@@ -37,13 +39,15 @@ var StartScreen = {
 var GameSelection = {
   start: function() {
     console.log("Moved to Game Selection");
-    Game.music.handler.playAudio("Sounds/Main.mp3", 1.0);
+    if (!Game.music.src.includes("Sounds/Main.mp3")) {
+      Game.music.handler.playAudio("Sounds/Main.mp3", 1.0);
+    }
   },
   update: function() {
     if (!Game.click.isNull()) {
       if (this.elements["pingPongIMG"].rect.contains(Game.click)) {
         console.log("Moving to PingPong");
-          Game.music.handler.playAudio("Sounds/PingPong.mp3", 0.5);
+        Game.music.handler.playAudio("Sounds/PingPong.mp3", 0.5);
         Game.load(PingPong);
       }
       if (this.elements["wormIMG"].rect.contains(Game.click)) {
@@ -76,7 +80,7 @@ var GameSelection = {
 }
 
 var PingPong = {
-  start: function(){
+  start: function() {
     console.log("loaded PingPong");
     this.points = [0, 0];
     this.playerSpeed = 5
@@ -84,24 +88,24 @@ var PingPong = {
     this.rightPlayer = new Rectangle(995, 360, 20, 150, "green");
     this.ball = new Rectangle(532, 435, 20, 20, "red");
     this.ballVel = [5, 5];
-    this.moveBall = function(){
-      if(this.ball.y <= 108) this.ballVel[1] = -this.ballVel[1];
-      if(this.ball.y + this.ball.height >= 758) this.ballVel[1] = -this.ballVel[1];
-      if(this.ball.intersects(this.leftPlayer)){
+    this.moveBall = function() {
+      if (this.ball.y <= 108) this.ballVel[1] = -this.ballVel[1];
+      if (this.ball.y + this.ball.height >= 758) this.ballVel[1] = -this.ballVel[1];
+      if (this.ball.intersects(this.leftPlayer)) {
         this.ballVel[0] = 5;
         Game.sfx.handler.playAudio("Sounds/bounce.mp3", 1.0);
       }
-      if(this.ball.intersects(this.rightPlayer)){
+      if (this.ball.intersects(this.rightPlayer)) {
         this.ballVel[0] = -5;
         Game.sfx.handler.playAudio("Sounds/bounce.mp3", 1.0);
       }
-      if(this.ball.x <= 15){
+      if (this.ball.x <= 15) {
         this.points[1]++;
         this.ballVel = [5, 5];
         this.ball.x = 532;
         this.ball.y = 435;
       }
-      if(this.ball.x + this.ball.width >= 1070){
+      if (this.ball.x + this.ball.width >= 1070) {
         this.points[0]++;
         this.ballVel = [-5, 5];
         this.ball.x = 532;
@@ -113,7 +117,7 @@ var PingPong = {
 
     }
   },
-  update: function(){
+  update: function() {
     if (!Game.click.isNull()) {
       if (this.elements["backButton"].container.contains(Game.click)) {
         console.log("Moving to Game Selection");
@@ -127,16 +131,16 @@ var PingPong = {
       if (Game.keys[38]) this.rightPlayer.y -= this.playerSpeed;
     }
 
-    if(this.leftPlayer.y <= 108){
+    if (this.leftPlayer.y <= 108) {
       this.leftPlayer.y = 108;
     }
-    if(this.leftPlayer.y + this.leftPlayer.height >= 758){
+    if (this.leftPlayer.y + this.leftPlayer.height >= 758) {
       this.leftPlayer.y = 758 - this.leftPlayer.height;
     }
-    if(this.rightPlayer.y <= 108){
+    if (this.rightPlayer.y <= 108) {
       this.rightPlayer.y = 108;
     }
-    if(this.rightPlayer.y + this.rightPlayer.height >= 758){
+    if (this.rightPlayer.y + this.rightPlayer.height >= 758) {
       this.rightPlayer.y = 758 - this.rightPlayer.height;
     }
 
@@ -164,9 +168,7 @@ var Worm = {
   start: function() {
     console.log("loaded Worm");
     this.dim = [41, 25];
-    this.worm = [
-      [Math.floor(this.dim[0] / 2), Math.floor(this.dim[1] / 2)]
-    ];
+    this.worm = [[Math.floor(this.dim[0] / 2), Math.floor(this.dim[1] / 2)]];
     this.apple = null;
     this.direction = [1, 0];
     this.playing = false;
@@ -202,7 +204,8 @@ var Worm = {
       while (this.apple == null) {
         this.apple = [Math.floor(Math.random() * this.dim[0]), Math.floor(Math.random() * this.dim[1])];
         for (part of this.worm) {
-          if (part == this.apple) this.apple = null;
+          if (this.apple == null) break;
+          if (part[0] == this.apple[0] && part[1] == this.apple[1]) this.apple = null;
         }
       }
       this.worm.push(head);
@@ -213,7 +216,7 @@ var Worm = {
   },
   update: function() {
     if (!Game.click.isNull()) {
-      if(this.elements["restart"].enabled){
+      if (this.elements["restart"].enabled) {
         if (this.elements["restart"].container.contains(Game.click)) {
           console.log("Moving to Worm");
           Game.load(Worm);
@@ -225,6 +228,13 @@ var Worm = {
       }
     }
     this.elements.score.value = `Points: ${this.points}`;
+    if (this.ended) {
+      this.playing = false;
+      this.elements.restart.enabled = true;
+    } else {
+      this.playing = true;
+      this.elements.restart.enabled = false;
+    }
     if (this.playing && !this.ended) {
       if (Game.keys) {
         if (Game.keys[65] || Game.keys[37]) this.newDir([-1, 0]);
@@ -236,13 +246,7 @@ var Worm = {
         this.ended = !this.move()
       }
     }
-    if (this.ended) {
-      this.playing = false;
-      this.elements.restart.enabled = true;
-    } else {
-      this.playing = true;
-      this.elements.restart.enabled = false;
-    }
+
   },
   elements: {
     background: new Rectangle(0, 0, 1080, 768, "white"),
@@ -280,7 +284,7 @@ var Worm = {
 }
 
 Hopper = {
-  start: function(){
+  start: function() {
     console.log("loaded Hopper");
     this.player = {
       jumping: true,
@@ -294,14 +298,12 @@ Hopper = {
     this.obstacles = [];
     this.acceleration = 0.01;
     this.speed = 10;
-    this.nextTime = 15 + (Math.random() * 10);
-    this.nextSize = 48 + (Math.random() * 16);
     this.points = 0;
-    this.move = function(){
-      for (i = this.obstacles.length - 1; i >= 0; i--){
-        if(this.obstacles[i].x > -64){
+    this.move = function() {
+      for (i = this.obstacles.length - 1; i >= 0; i--) {
+        if (this.obstacles[i].x > -64) {
           this.obstacles[i].x -= this.speed;
-          if(this.obstacles[i].intersects(this.elements.player)){
+          if (this.obstacles[i].intersects(this.elements.player)) {
             return false;
           }
         } else {
@@ -311,7 +313,7 @@ Hopper = {
       this.player.velY += 1.5; //gravity
       this.player.y += this.player.velY;
       this.player.velY *= 0.95; //friction
-      if(this.player.y + this.player.height > this.elements.floor.y){
+      if (this.player.y + this.player.height > this.elements.floor.y) {
         this.player.jumping = false;
         this.player.velY = 0;
         this.player.y = this.elements.floor.y - this.player.height;
@@ -321,9 +323,9 @@ Hopper = {
       return true;
     }
   },
-  update: function(){
+  update: function() {
     if (!Game.click.isNull()) {
-      if(this.elements["restart"].enabled){
+      if (this.elements["restart"].enabled) {
         if (this.elements["restart"].container.contains(Game.click)) {
           console.log("Moving to Hopper");
           Game.load(Hopper);
@@ -335,22 +337,27 @@ Hopper = {
       }
     }
     if (Game.keys) {
-      if ((Game.keys[87] || Game.keys[38] || Game.keys[32]) && !this.player.jumping){
+      if ((Game.keys[87] || Game.keys[38] || Game.keys[32]) && !this.player.jumping) {
         this.player.velY -= 30;
         Game.sfx.handler.playAudio("Sounds/jump.mp3", 1.0);
         this.player.jumping = true;
       }
     }
-    if(this.playing && !this.ended){
-      if(Game.checkFrame(Math.round(1000 / this.nextTime))){
-        this.obstacles.push(new Rectangle(1080, 512 - this.nextSize, this.nextSize, this.nextSize, "red"));
-        this.nextSize = 32 + (Math.random() * 16);
-        this.nextTime = this.nextSize / 6;
-        if(this.obstacles.length >= 2){
-          if(this.obstacles[this.obstacles.length - 1].intersects(this.obstacles[this.obstacles.length - 2])){
-            this.obstacles.pop()
-          }
+    if (this.playing && !this.ended) {
+      if(Hopper.obstacles.length > 0){
+          if (Hopper.obstacles[Hopper.obstacles.length - 1].x <= 400) {
+          var n = Math.round(Math.random() * 32) + 32
+          var c = `rgb(${Math.round(Math.random() * 127)}, ${Math.round(Math.random() * 127)}, ${Math.round(Math.random() * 127)})`
+          this.obstacles.push(new Rectangle(1080, 512 - n, n, n, c));
         }
+      } else {
+        var n = Math.round(Math.random() * 32) + 32
+        var c = `rgb(${Math.round(Math.random() * 127)}, ${Math.round(Math.random() * 127)}, ${Math.round(Math.random() * 127)})`
+        this.obstacles.push(new Rectangle(1080, 512 - n, n, n, c));
+      }
+
+      if (Game.checkFrame(150)) {
+        this.speed *= 1.005
       }
       this.ended = !this.move();
     }
@@ -372,8 +379,8 @@ Hopper = {
     player: new Rectangle(64, 448, 64, 64, "green"),
     obstacles: {
       enabled: true,
-      draw: function(){
-        for (i = Hopper.obstacles.length - 1; i >= 0; i--){
+      draw: function() {
+        for (i = Hopper.obstacles.length - 1; i >= 0; i--) {
           Hopper.obstacles[i].draw();
         }
       }

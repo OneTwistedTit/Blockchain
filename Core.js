@@ -6,8 +6,8 @@ var Game = {
     this.context = this.canvas.getContext("2d");
     this.canvas.style = "border-style: solid; border-width: 2px; display: block; margin: auto;"
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-    this.animationID = window.requestAnimationFrame(updateGame);
     this.frame = 0;
+    this.animID = window.requestAnimationFrame(updateGame);
     this.music = new Audio();
     this.sfx = new Audio();
     this.music.loop = true;
@@ -17,11 +17,20 @@ var Game = {
     this.music.handler = {
       playAudio: async function(src, volume) {
         try {
-          Game.music.src = src;
-          Game.music.volume = volume;
-          Game.music.muted = JSON.parse(localStorage.muted);
-          await Game.music.play();
-          console.log("playing: " + src);
+          if (this.soundPromise != undefined) {
+            Game.music.pause();
+            Game.music.src = src;
+            Game.music.volume = volume;
+            Game.music.muted = JSON.parse(localStorage.muted);
+            this.soundPromise = Game.music.play();
+            console.log("playing: " + src);
+          } else {
+            Game.music.src = src;
+            Game.music.volume = volume;
+            Game.music.muted = JSON.parse(localStorage.muted);
+            this.soundPromise = Game.music.play();
+            console.log("playing: " + src);
+          }
         } catch (err) {
           throw new Error(err);
         }
@@ -34,11 +43,20 @@ var Game = {
     this.sfx.handler = {
       playAudio: async function(src, volume) {
         try {
-          Game.sfx.src = src;
-          Game.sfx.volume = volume;
-          Game.sfx.muted = JSON.parse(localStorage.muted);
-          await Game.sfx.play();
-          console.log("playing: " + src);
+          if (this.soundPromise != undefined) {
+            Game.sfx.pause();
+            Game.sfx.src = src;
+            Game.sfx.volume = volume;
+            Game.sfx.muted = JSON.parse(localStorage.muted);
+            this.soundPromise = Game.sfx.play();
+            console.log("playing: " + src);
+          } else {
+            Game.sfx.src = src;
+            Game.sfx.volume = volume;
+            Game.sfx.muted = JSON.parse(localStorage.muted);
+            this.soundPromise = Game.sfx.play();
+            console.log("playing: " + src);
+          }
         } catch (err) {
           throw new Error(err);
         }
@@ -91,16 +109,31 @@ var Game = {
     this.current = map
     this.current.start();
   },
-  Screenshot: function() {
-    var link = document.createElement("a");
-    link.download = "image.png";
+  debug: {
+    screenshot: function() {
+      var link = document.createElement("a");
+      link.download = "image.png";
 
-    this.canvas.toBlob(function(blob) {
-      link.href = URL.createObjectURL(blob);
-      console.log(blob);
-      console.log(link.href);
-    }, 'image/png');
+      this.canvas.toBlob(function(blob) {
+        link.href = URL.createObjectURL(blob);
+        console.log(blob);
+        console.log(link.href);
+      }, 'image/png');
 
-    link.click();
+      link.click();
+    },
+    refreshRate: function(){
+      function getRate(){
+        return new Promise((resolve) => {
+          requestAnimationFrame((time1) => {
+            requestAnimationFrame((time2) => {
+              resolve(1000/ (time2 - time1));
+            });
+          });
+        });
+      }
+
+      getRate().then((rate) => console.log(rate));
+    }
   }
 }
