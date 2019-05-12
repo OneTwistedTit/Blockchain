@@ -1,6 +1,6 @@
 function startGame() {
   Game.start();
-  Game.load(InitScreen);
+  Game.load(Teetrys);
 }
 
 function updateGame() {

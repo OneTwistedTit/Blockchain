@@ -168,7 +168,9 @@ var Worm = {
   start: function() {
     console.log("loaded Worm");
     this.dim = [41, 25];
-    this.worm = [[Math.floor(this.dim[0] / 2), Math.floor(this.dim[1] / 2)]];
+    this.worm = [
+      [Math.floor(this.dim[0] / 2), Math.floor(this.dim[1] / 2)]
+    ];
     this.apple = null;
     this.direction = [1, 0];
     this.playing = false;
@@ -344,8 +346,8 @@ Hopper = {
       }
     }
     if (this.playing && !this.ended) {
-      if(Hopper.obstacles.length > 0){
-          if (Hopper.obstacles[Hopper.obstacles.length - 1].x <= 400) {
+      if (Hopper.obstacles.length > 0) {
+        if (Hopper.obstacles[Hopper.obstacles.length - 1].x <= 400) {
           var n = Math.round(Math.random() * 32) + 32
           var c = `rgb(${Math.round(Math.random() * 127)}, ${Math.round(Math.random() * 127)}, ${Math.round(Math.random() * 127)})`
           this.obstacles.push(new Rectangle(1080, 512 - n, n, n, c));
@@ -388,5 +390,74 @@ Hopper = {
     score: new Text(540, 98, "Points: 0", "80px Comic Sans MS"),
     backButton: new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS"),
     restart: new RectButton(65, 138, 950, 589, "rgba(31, 31, 31, 0.875)", "Click to play again!", "100px Comic Sans MS")
+  }
+}
+
+var Teetrys = {
+  start: function() {
+    this.matrices = {
+      i: [
+        [0, 1, 0, 0],
+        [0, 1, 0, 0],
+        [0, 1, 0, 0],
+        [0, 1, 0, 0]
+      ],
+      o: [
+        [2, 2],
+        [2, 2]
+      ],
+      t: [
+        [0, 3, 0],
+        [3, 3, 3],
+        [0, 0, 0]
+      ],
+      s: [
+        [0, 4, 4],
+        [4, 4, 0],
+        [0, 0, 0]
+      ],
+      z: [
+        [5, 5, 0],
+        [0, 5, 5],
+        [0, 0, 0]
+      ],
+      j: [
+        [0, 6, 0],
+        [0, 6, 0],
+        [6, 6, 0]
+      ],
+      l: [
+        [0, 7, 0],
+        [0, 7, 0],
+        [7, 7, 0]
+      ]
+    };
+    this.colors = [
+      null,
+      '#FF0D72',
+      '#0DC2FF',
+      '#0DFF72',
+      '#F538FF',
+      '#FF8E0D',
+      '#FFE138',
+      '#3877FF',
+    ];
+    this.pieces = [];
+
+  },
+  update: function() {
+
+  },
+  elements: {
+    background: new Rectangle(0, 0, 1080, 768, "white"),
+    score: new Text(260, 98, "Points: 0", "80px Comic Sans MS"),
+    border: {
+      enabled: true,
+      draw: function() {
+        Game.context.lineWidth = 5;
+        Game.context.strokeRect(535, 8, 522, 752);
+      }
+    },
+    test: new Rectangle(535, 8, 52, 52)
   }
 }
