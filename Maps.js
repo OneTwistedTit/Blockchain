@@ -395,43 +395,63 @@ Hopper = {
 
 var Teetrys = {
   start: function() {
-    this.matrices = {
-      i: [
-        [0, 1, 0, 0],
-        [0, 1, 0, 0],
-        [0, 1, 0, 0],
-        [0, 1, 0, 0]
-      ],
-      o: [
-        [2, 2],
-        [2, 2]
-      ],
-      t: [
-        [0, 3, 0],
-        [3, 3, 3],
-        [0, 0, 0]
-      ],
-      s: [
-        [0, 4, 4],
-        [4, 4, 0],
-        [0, 0, 0]
-      ],
-      z: [
-        [5, 5, 0],
-        [0, 5, 5],
-        [0, 0, 0]
-      ],
-      j: [
-        [0, 6, 0],
-        [0, 6, 0],
-        [6, 6, 0]
-      ],
-      l: [
-        [0, 7, 0],
-        [0, 7, 0],
-        [7, 7, 0]
-      ]
-    };
+    this.sqsize = 25
+    this.Piece = function(x, y, type){
+      this.x = x;
+      this.y = y;
+      switch(type.toUpperCase()){
+        case "I":
+          this.type = [
+            [0, 1, 0, 0],
+            [0, 1, 0, 0],
+            [0, 1, 0, 0],
+            [0, 1, 0, 0]
+          ];
+          break;
+        case "O":
+          this.type = [
+            [2, 2],
+            [2, 2]
+          ]
+          break;
+        case "T":
+          this.type = [
+            [0, 3, 0],
+            [3, 3, 3],
+            [0, 0, 0]
+          ];
+          break;
+        case "S":
+          this.type = [
+            [0, 4, 4],
+            [4, 4, 0],
+            [0, 0, 0]
+          ];
+          break;
+        case "Z":
+          this.type = [
+            [5, 5, 0],
+            [0, 5, 5],
+            [0, 0, 0]
+          ];
+          break;
+        case "J":
+          this.type = [
+            [0, 6, 0],
+            [0, 6, 0],
+            [6, 6, 0]
+          ];
+          break;
+        case "L":
+          this.type = [
+            [0, 7, 0],
+            [0, 7, 0],
+            [7, 7, 0]
+          ];
+      }
+      this.draw = function(){}
+    }
+
     this.colors = [
       null,
       '#FF0D72',
@@ -450,14 +470,36 @@ var Teetrys = {
   },
   elements: {
     background: new Rectangle(0, 0, 1080, 768, "white"),
-    score: new Text(260, 98, "Points: 0", "80px Comic Sans MS"),
-    border: {
+    divide: new Rectangle(537, 0, 6, 768, "black"),
+    scoreLeft: new Text(208, 45, "Points: 0", "40px Comic Sans MS"),
+    scoreRight: new Text(872, 45, "Points: 0", "40px Comic Sans MS"),
+    borderLeft: {
       enabled: true,
       draw: function() {
         Game.context.lineWidth = 5;
-        Game.context.strokeRect(535, 8, 522, 752);
+        Game.context.strokeRect(10, 54, 396, 660);
       }
     },
-    test: new Rectangle(535, 8, 52, 52)
+    borderRight: {
+      enabled: true,
+      draw: function() {
+        Game.context.lineWidth = 5;
+        Game.context.strokeRect(674, 54, 396, 660);
+      }
+    },
+    nextLeft: {
+      enabled: true,
+      draw: function() {
+        Game.context.lineWidth = 5;
+        Game.context.strokeRect(419, 54, 108, 324)
+      }
+    },
+    nextRight: {
+      enabled: true,
+      draw: function() {
+        Game.context.lineWidth = 5;
+        Game.context.strokeRect(553, 54, 108, 324)
+      }
+    }
   }
 }
