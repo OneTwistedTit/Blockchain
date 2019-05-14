@@ -491,14 +491,14 @@ var Teetrys = {
       enabled: true,
       draw: function() {
         Game.context.lineWidth = 5;
-        Game.context.strokeRect(419, 54, 108, 324)
+        Game.context.strokeRect(419, 54, 108, 324);
       }
     },
     nextRight: {
       enabled: true,
       draw: function() {
         Game.context.lineWidth = 5;
-        Game.context.strokeRect(553, 54, 108, 324)
+        Game.context.strokeRect(553, 54, 108, 324);
       }
     }
   }
