@@ -396,60 +396,84 @@ Hopper = {
 var Teetrys = {
   start: function() {
     this.sqsize = 25
-    this.Piece = function(x, y, type){
-      this.x = x;
-      this.y = y;
-      switch(type.toUpperCase()){
-        case "I":
-          this.type = [
-            [0, 1, 0, 0],
-            [0, 1, 0, 0],
-            [0, 1, 0, 0],
-            [0, 1, 0, 0]
-          ];
-          break;
-        case "O":
-          this.type = [
-            [2, 2],
-            [2, 2]
-          ]
-          break;
-        case "T":
-          this.type = [
-            [0, 3, 0],
-            [3, 3, 3],
-            [0, 0, 0]
-          ];
-          break;
-        case "S":
-          this.type = [
-            [0, 4, 4],
-            [4, 4, 0],
-            [0, 0, 0]
-          ];
-          break;
-        case "Z":
-          this.type = [
-            [5, 5, 0],
-            [0, 5, 5],
-            [0, 0, 0]
-          ];
-          break;
-        case "J":
-          this.type = [
-            [0, 6, 0],
-            [0, 6, 0],
-            [6, 6, 0]
-          ];
-          break;
-        case "L":
-          this.type = [
-            [0, 7, 0],
-            [0, 7, 0],
-            [7, 7, 0]
-          ];
+    this.colors = [
+      null,
+      '#FF0D72',
+      '#0DC2FF',
+      '#0DFF72',
+      '#F538FF',
+      '#FF8E0D',
+      '#FFE138',
+      '#3877FF',
+    ];
+    this.Piece = class {
+      constructor(x, y, type){
+        this.x = x;
+        this.y = y;
+        this.enabled = true;
+        switch(type.toUpperCase()){
+          case "I":
+            this.type = [
+              [0, 1, 0, 0],
+              [0, 1, 0, 0],
+              [0, 1, 0, 0],
+              [0, 1, 0, 0]
+            ];
+            break;
+          case "O":
+            this.type = [
+              [2, 2],
+              [2, 2]
+            ]
+            break;
+          case "T":
+            this.type = [
+              [0, 3, 0],
+              [3, 3, 3],
+              [0, 0, 0]
+            ];
+            break;
+          case "S":
+            this.type = [
+              [0, 4, 4],
+              [4, 4, 0],
+              [0, 0, 0]
+            ];
+            break;
+          case "Z":
+            this.type = [
+              [5, 5, 0],
+              [0, 5, 5],
+              [0, 0, 0]
+            ];
+            break;
+          case "J":
+            this.type = [
+              [0, 6, 0],
+              [0, 6, 0],
+              [6, 6, 0]
+            ];
+            break;
+          case "L":
+            this.type = [
+              [0, 7, 0],
+              [0, 7, 0],
+              [7, 7, 0]
+            ];
+        }
       }
-      this.draw = function(){}
+      draw(){
+          for(var i; i < this.type.length; i++){
+            for(var j; j < this.type[i].length; j++){
+              Game.context.fillStyle = Teetrys.colors[this.type[i][j]];
+              if(Game.context.fillStyle != null){
+                Game.context.fillRect(this.x + j * Teetrys.sqsize, this.y + i * Teetrys.sqsize, Teetrys.sqsize, Teetrys.sqsize);
+              } else {
+                continue;
+              }
+            }
+          }
+      }
     }
 
     this.colors = [
@@ -462,8 +486,10 @@ var Teetrys = {
       '#FFE138',
       '#3877FF',
     ];
-    this.pieces = [];
-
+    this.leftBoard = [];
+    this.rightBoard = [];
+    this.leftPlayer = null;
+    this.rightPlayer = null;
   },
   update: function() {
 
@@ -499,6 +525,21 @@ var Teetrys = {
       draw: function() {
         Game.context.lineWidth = 5;
         Game.context.strokeRect(553, 54, 108, 324);
+      }
+    },
+    leftBoard: {
+      enabled: true,
+      draw: function() {
+
+        Teetrys.leftBoard[0].draw()
+      }
+    },
+    rightBoard: {
+      enabled: true,
+      draw: function() {
+        for(var i; i < Teetrys.rightBoard.length; i++){
+          Teetrys.rightBoard[i].draw();
+        }
       }
     }
   }
