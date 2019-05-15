@@ -122,12 +122,12 @@ var Game = {
 
       link.click();
     },
-    refreshRate: function(){
-      function getRate(){
+    refreshRate: function() {
+      function getRate() {
         return new Promise((resolve) => {
           requestAnimationFrame((time1) => {
             requestAnimationFrame((time2) => {
-              resolve(1000/ (time2 - time1));
+              resolve(1000 / (time2 - time1));
             });
           });
         });

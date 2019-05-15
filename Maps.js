@@ -407,11 +407,11 @@ var Teetrys = {
       '#3877FF',
     ];
     this.Piece = class {
-      constructor(x, y, type){
+      constructor(x, y, type) {
         this.x = x;
         this.y = y;
         this.enabled = true;
-        switch(type.toUpperCase()){
+        switch (type.toUpperCase()) {
           case "I":
             this.type = [
               [0, 1, 0, 0],
@@ -462,30 +462,15 @@ var Teetrys = {
             ];
         }
       }
-      draw(){
-          for(var i; i < this.type.length; i++){
-            for(var j; j < this.type[i].length; j++){
-              Game.context.fillStyle = Teetrys.colors[this.type[i][j]];
-              if(Game.context.fillStyle != null){
-                Game.context.fillRect(this.x + j * Teetrys.sqsize, this.y + i * Teetrys.sqsize, Teetrys.sqsize, Teetrys.sqsize);
-              } else {
-                continue;
-              }
-            }
+      draw() {
+        for (var i = 0; i < this.type.length; i++) {
+          for (var j; j < this.type[i].length; j++) {
+            Game.context.fillStyle = Teetrys.colors[this.type[i][j]];
+            Game.context.fillRect(this.x + j * Teetrys.sqsize, this.y + i * Teetrys.sqsize, Teetrys.sqsize, Teetrys.sqsize);
           }
+        }
       }
     }
-
-    this.colors = [
-      null,
-      '#FF0D72',
-      '#0DC2FF',
-      '#0DFF72',
-      '#F538FF',
-      '#FF8E0D',
-      '#FFE138',
-      '#3877FF',
-    ];
     this.leftBoard = [];
     this.rightBoard = [];
     this.leftPlayer = null;
@@ -530,15 +515,20 @@ var Teetrys = {
     leftBoard: {
       enabled: true,
       draw: function() {
-
-        Teetrys.leftBoard[0].draw()
+        if (Teetrys.leftBoard != null) {
+          for (piece of Teetrys.leftBoard) {
+            piece.draw();
+          }
+        }
       }
     },
     rightBoard: {
       enabled: true,
       draw: function() {
-        for(var i; i < Teetrys.rightBoard.length; i++){
-          Teetrys.rightBoard[i].draw();
+        if (Teetrys.rightBoard != null) {
+          for (piece of Teetrys.rightBoard) {
+            piece.draw();
+          }
         }
       }
     }

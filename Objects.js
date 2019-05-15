@@ -1,5 +1,5 @@
 class Rectangle {
-  constructor(x, y, width, height, color){
+  constructor(x, y, width, height, color) {
     this.x = x;
     this.y = y;
     this.width = width;
@@ -38,7 +38,7 @@ class Rectangle {
 }
 
 class Text {
-  constructor(x, y, text, font, align, color){
+  constructor(x, y, text, font, align, color) {
     this.x = x;
     this.y = y;
     this.value = text;
@@ -63,7 +63,7 @@ class Text {
   }
 }
 class Circle {
-  constructor(x, y, radius, color){
+  constructor(x, y, radius, color) {
     this.radius = radius;
     this.x = x + this.radius;
     this.y = y + this.radius;
@@ -82,7 +82,7 @@ class Circle {
 
 }
 class ImageObj {
-  constructor(x, y, width, height, src){
+  constructor(x, y, width, height, src) {
     this.rect = new Rectangle(x, y, width, height);
     this.image = new Image();
     this.image.src = src;
@@ -93,7 +93,7 @@ class ImageObj {
   }
 }
 class RectButton {
-  constructor(x, y, width, height, color, text, font){
+  constructor(x, y, width, height, color, text, font) {
     this.x = x;
     this.y = y;
     this.width = width;
@@ -119,7 +119,7 @@ class RectButton {
   }
 }
 class CircleButton {
-  constructor(x, y, radius, color, text, font){
+  constructor(x, y, radius, color, text, font) {
     this.x = x;
     this.y = y;
     this.radius = radius;
