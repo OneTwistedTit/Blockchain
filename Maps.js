@@ -29,9 +29,9 @@ var StartScreen = {
     }
   },
   elements: {
-    background: new Rectangle(0, 0, 1080, 768, "rgb(138, 0, 255"),
+    background: new Rectangle(0, 0, 1080, 768, "rgba(138, 0, 255, 1)"),
     credits: new Text(540, 768 - 15, "Created by John Doe 2019", "15px Comic Sans MS"),
-    titleBG: new Rectangle(120, 35, 846, 140, "rgba(0, 255, 255, 1)"),
+    titleBG: new Rectangle(120, 35, 846, 140, "cyan"),
     title: new Text(540, 140, "BLOCKCHAIN", "120px Comic Sans MS"),
     playButton: new RectButton(340, 334, 400, 200, "green", "PLAY", "120px Comic Sans MS"),
   }
@@ -60,6 +60,11 @@ var GameSelection = {
         Game.music.handler.playAudio("Sounds/Hopper.mp3", 0.5);
         Game.load(Hopper);
       }
+      if (this.elements["teetrysIMG"].rect.contains(Game.click)) {
+        console.log("Moving to Teetrys");
+        Game.music.handler.playAudio("Sounds/Teetrys.mp3", 0.5);
+        Game.load(Teetrys);
+      }
       if (this.elements["backButton"].container.contains(Game.click)) {
         console.log("Moving to Game Selection");
         Game.load(StartScreen);
@@ -69,13 +74,15 @@ var GameSelection = {
   },
   elements: {
     background: new Rectangle(0, 0, 1080, 768, "black"),
-    pingPongText: new Text(215, 170, "Ping Pong", "50px Comic Sans MS", null, "white"),
+    pingPongText: new Text(215, 180, "Ping Pong", "50px Comic Sans MS", null, "white"),
     pingPongIMG: new ImageObj(57, 200, 315, 225, "Images/Thumbnails/PingPongThumb.png"),
-    wormText: new Text(540, 170, "Worm", "50px Comic Sans MS", null, "white"),
+    wormText: new Text(540, 180, "Worm", "50px Comic Sans MS", null, "white"),
     wormIMG: new ImageObj(382, 200, 315, 225, "Images/Thumbnails/WormThumb.png"),
+    hopperText: new Text(865, 180, "Hopper", "50px Comic Sans MS", null, "white"),
     hopperIMG: new ImageObj(708, 200, 315, 225, "Images/Thumbnails/HopperThumb.png"),
-    hopperText: new Text(865, 170, "Hopper", "50px Comic Sans MS", null, "white"),
-    backButton: new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS")
+    teetrysText: new Text(215, 475, "Teetrys", "50px Comic Sans MS", null, "white"),
+    teetrysIMG: new ImageObj(57, 495, 315, 225, "Images/Thumbnails/TeetrysThumb.png"),
+    backButton: new RectButton(810, 0, 270, 75, "blue", "<- BACK", "60px Comic Sans MS"),
   }
 }
 
@@ -160,7 +167,7 @@ var PingPong = {
       }
     },
     score: new Text(540, 98, "0 : 0", "80px Comic Sans MS"),
-    backButton: new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS")
+    backButton: new RectButton(810, 0, 270, 75, "blue", "<- BACK", "60px Comic Sans MS"),
   }
 }
 
@@ -174,7 +181,7 @@ var Worm = {
     this.apple = null;
     this.direction = [1, 0];
     this.playing = false;
-    this.offset = [15, 108];
+    this.pos = [15, 108];
     this.lastMoved = [1, 0];
     this.points = 0;
     this.ended = false;
@@ -265,7 +272,7 @@ var Worm = {
         if (Worm.worm != null) {
           for (part of Worm.worm) {
             Game.context.fillStyle = "green";
-            Game.context.fillRect(part[0] * 25 + Worm.offset[0], part[1] * 25 + Worm.offset[1], 25, 25);
+            Game.context.fillRect(part[0] * 25 + Worm.pos[0], part[1] * 25 + Worm.pos[1], 25, 25);
           }
         }
       }
@@ -275,12 +282,12 @@ var Worm = {
       draw: function() {
         if (Worm.apple != null) {
           Game.context.fillStyle = "red";
-          Game.context.fillRect(Worm.apple[0] * 25 + Worm.offset[0], Worm.apple[1] * 25 + Worm.offset[1], 25, 25);
+          Game.context.fillRect(Worm.apple[0] * 25 + Worm.pos[0], Worm.apple[1] * 25 + Worm.pos[1], 25, 25);
         }
       }
     },
     score: new Text(540, 98, "Points: 0", "80px Comic Sans MS"),
-    backButton: new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS"),
+    backButton: new RectButton(810, 0, 270, 75, "blue", "<- BACK", "60px Comic Sans MS"),
     restart: new RectButton(65, 138, 950, 589, "rgba(31, 31, 31, 0.875)", "Click to play again!", "100px Comic Sans MS")
   }
 }
@@ -371,9 +378,6 @@ Hopper = {
       this.playing = true;
       this.elements.restart.enabled = false;
     }
-
-
-
   },
   elements: {
     background: new Rectangle(0, 0, 1080, 768, "white"),
@@ -388,32 +392,35 @@ Hopper = {
       }
     },
     score: new Text(540, 98, "Points: 0", "80px Comic Sans MS"),
-    backButton: new RectButton(780, 0, 315, 75, "blue", "<- BACK", "60px Comic Sans MS"),
+    backButton: new RectButton(810, 0, 270, 75, "blue", "<- BACK", "60px Comic Sans MS"),
     restart: new RectButton(65, 138, 950, 589, "rgba(31, 31, 31, 0.875)", "Click to play again!", "100px Comic Sans MS")
   }
 }
 
 var Teetrys = {
   start: function() {
-    this.sqsize = 25
+    this.playing = true;
+    this.sqsize = 33
+    this.points = 0;
+    this.dropC = 0;
     this.colors = [
-      null,
-      '#FF0D72',
-      '#0DC2FF',
-      '#0DFF72',
-      '#F538FF',
-      '#FF8E0D',
-      '#FFE138',
-      '#3877FF',
+      "rgba(0, 15, 31, 0)",
+      "#00FFFF",
+      "#FFFF00",
+      "#7F00FF",
+      "#00FF00",
+      "#FF0000",
+      "#0000FF",
+      "#FF7F00"
     ];
+    this.pieces = 'IOTSZJL';
     this.Piece = class {
-      constructor(x, y, type) {
-        this.x = x;
-        this.y = y;
+      constructor(pos, type) {
+        this.pos = pos;
         this.enabled = true;
         switch (type.toUpperCase()) {
           case "I":
-            this.type = [
+            this.matrix = [
               [0, 1, 0, 0],
               [0, 1, 0, 0],
               [0, 1, 0, 0],
@@ -421,116 +428,226 @@ var Teetrys = {
             ];
             break;
           case "O":
-            this.type = [
+            this.matrix = [
               [2, 2],
               [2, 2]
             ]
             break;
           case "T":
-            this.type = [
+            this.matrix = [
               [0, 3, 0],
               [3, 3, 3],
               [0, 0, 0]
             ];
             break;
           case "S":
-            this.type = [
-              [0, 4, 4],
+            this.matrix = [
+              [4, 0, 0],
               [4, 4, 0],
-              [0, 0, 0]
+              [0, 4, 0]
             ];
             break;
           case "Z":
-            this.type = [
+            this.matrix = [
+              [0, 5, 0],
               [5, 5, 0],
-              [0, 5, 5],
-              [0, 0, 0]
+              [5, 0, 0]
             ];
             break;
           case "J":
-            this.type = [
+            this.matrix = [
               [0, 6, 0],
               [0, 6, 0],
               [6, 6, 0]
             ];
             break;
           case "L":
-            this.type = [
-              [0, 7, 0],
-              [0, 7, 0],
+            this.matrix = [
+              [7, 0, 0],
+              [7, 0, 0],
               [7, 7, 0]
             ];
+            break;
+          default:
+            throw new Error("Bad matrix argument");
         }
       }
-      draw() {
-        for (var i = 0; i < this.type.length; i++) {
-          for (var j; j < this.type[i].length; j++) {
-            Game.context.fillStyle = Teetrys.colors[this.type[i][j]];
-            Game.context.fillRect(this.x + j * Teetrys.sqsize, this.y + i * Teetrys.sqsize, Teetrys.sqsize, Teetrys.sqsize);
+      draw(offset) {
+        for (var i = 0; i < this.matrix.length; i++) {
+          for (var j = 0; j < this.matrix[i].length; j++) {
+            Game.context.fillStyle = Teetrys.colors[this.matrix[i][j]];
+            Game.context.fillRect(offset[0] + this.pos[0] * Teetrys.sqsize + j * Teetrys.sqsize, offset[1] + this.pos[1] * Teetrys.sqsize + i * Teetrys.sqsize, Teetrys.sqsize, Teetrys.sqsize);
           }
         }
       }
+      rotate(dir) {
+        var offset = 1;
+        var pos = this.pos[0]
+        for (var y = 0; y < this.matrix.length; y++) {
+          for (var x = 0; x < y; x++) {
+            [
+              this.matrix[x][y],
+              this.matrix[y][x]
+            ] = [
+              this.matrix[y][x],
+              this.matrix[x][y]
+            ];
+          }
+        }
+        if (dir > 0) {
+          this.matrix.forEach(row => row.reverse());
+        } else {
+          this.matrix.reverse();
+        }
+        while(Teetrys.collide()){
+          this.pos[0] += offset;
+          offset = -(offset + (offset > 0 ? 1 : -1));
+          if(offset > this.matrix[0].length){
+            this.rotate(-dir);
+            this.pos[0] = pos;
+          }
+        }
+      }
+      drop() {
+        this.pos[1]++;
+        if(Teetrys.collide()){
+          this.pos[1]--;
+          Teetrys.merge();
+          Teetrys.sweep();
+          Teetrys.spawn();
+        }
+      }
+      move(dir) {
+        this.pos[0] += dir;
+        if(Teetrys.collide()){
+          this.pos[0] -= dir;
+        }
+      }
     }
-    this.leftBoard = [];
-    this.rightBoard = [];
-    this.leftPlayer = null;
-    this.rightPlayer = null;
+
+    this.player = null;
+    this.arena = [];
+    for(i = 0; i < 20; i++) {
+      this.arena.push(new Array(12).fill(0));
+    }
+    this.merge = function() {
+      this.player.matrix.forEach((row, y) => {
+        row.forEach((value, x) => {
+          if(value != 0){
+            this.arena[y + this.player.pos[1]][x + this.player.pos[0]] = value;
+          }
+        });
+      });
+      Game.sfx.handler.playAudio("Sounds/fall.mp3", 1.0);
+    }
+    this.collide = function() {
+      let m = this.player.matrix;
+      let p = this.player.pos;
+      for (var y = 0; y < m.length; y++){
+        for(var x = 0; x < m[y].length; x++){
+          if(m[y][x] != 0 && (this.arena[y + p[1]] && this.arena[y + p[1]][x + p[0]]) != 0) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+    this.sweep = function(){
+      var rows = 1;
+      outer: for (var y = this.arena.length - 1; y > 0; y--){
+        for (var x = 0; x < this.arena[y].length; x++){
+          if(this.arena[y][x] == 0){
+            continue outer;
+          }
+        }
+        var row = this.arena.splice(y, 1)[0].fill(0);
+        this.arena.unshift(row);
+        y++;
+
+        this.points += rows * 100;
+        rows *= 2;
+      }
+    }
+    this.spawn = function(){
+      var type = this.pieces[this.pieces.length * Math.random() | 0];
+      this.player = new Teetrys.Piece([0, 0], type);
+      this.player.pos[0] = (this.arena[0].length / 2 | 0) - (this.player.matrix[0].length / 2 | 0);
+
+      if(this.collide()){
+        this.arena.forEach((row) => row.fill(0));
+        this.score = 0;
+      }
+    }
   },
   update: function() {
+    if (!Game.click.isNull()) {
+      /*if (this.elements["restart"].enabled) {
+        if (this.elements["restart"].container.contains(Game.click)) {
+          console.log("Moving to Hopper");
+          Game.load(Hopper);
+        }
+      }*/
+      if (this.elements["backButton"].container.contains(Game.click)) {
+        console.log("Moving to Game Selection");
+        Game.load(GameSelection);
+      }
+    }
+    if(this.playing){
+      if(this.player != null){
+        if(this.dropC >= 75){
+          this.player.drop();
+          this.dropC = 0;
+        }
+        this.dropC++;
+
+        if (Game.keys) {
+          if(Game.frame % 10 == 0){
+            if(Game.keys[83]) this.player.drop();
+          }
+          if(Game.frame % 5 == 0) {
+            if(Game.keys[65]) this.player.move(-1);
+            if(Game.keys[68]) this.player.move(1);
+            if(Game.keys[81]) this.player.rotate(-1);
+            if(Game.keys[69]) this.player.rotate(1);
+          }
+        }
+      }
+
+      if(this.player == null){
+        this.spawn();
+      }
+      this.elements.score.value = `Points: ${this.points}`;
+    }
 
   },
   elements: {
-    background: new Rectangle(0, 0, 1080, 768, "white"),
-    divide: new Rectangle(537, 0, 6, 768, "black"),
-    scoreLeft: new Text(208, 45, "Points: 0", "40px Comic Sans MS"),
-    scoreRight: new Text(872, 45, "Points: 0", "40px Comic Sans MS"),
-    borderLeft: {
+    background: new Rectangle(0, 0, 1080, 768, "rgb(138, 0, 255)"),
+    score: new Text(540, 45, "Points: 0", "40px Comic Sans MS"),
+    arena: {
       enabled: true,
       draw: function() {
-        Game.context.lineWidth = 5;
-        Game.context.strokeRect(10, 54, 396, 660);
-      }
-    },
-    borderRight: {
-      enabled: true,
-      draw: function() {
-        Game.context.lineWidth = 5;
-        Game.context.strokeRect(674, 54, 396, 660);
-      }
-    },
-    nextLeft: {
-      enabled: true,
-      draw: function() {
-        Game.context.lineWidth = 5;
-        Game.context.strokeRect(419, 54, 108, 324);
-      }
-    },
-    nextRight: {
-      enabled: true,
-      draw: function() {
-        Game.context.lineWidth = 5;
-        Game.context.strokeRect(553, 54, 108, 324);
-      }
-    },
-    leftBoard: {
-      enabled: true,
-      draw: function() {
-        if (Teetrys.leftBoard != null) {
-          for (piece of Teetrys.leftBoard) {
-            piece.draw();
+        Game.context.lineWidth = 6;
+        Game.context.strokeRect(339, 51, 402, 666);
+        Game.context.fillStyle = "white"//"rgba(0, 23, 47, 1)";
+        Game.context.fillRect(342, 54, 396, 660);
+        if (Teetrys.arena != null) {
+          for (var i = 0; i < Teetrys.arena.length; i++) {
+            for (var j = 0; j < Teetrys.arena[i].length; j++) {
+              Game.context.fillStyle = Teetrys.colors[Teetrys.arena[i][j]];
+              Game.context.fillRect(342 + j * Teetrys.sqsize, 54 +  i * Teetrys.sqsize, Teetrys.sqsize, Teetrys.sqsize);
+            }
           }
         }
       }
     },
-    rightBoard: {
+    player: {
       enabled: true,
       draw: function() {
-        if (Teetrys.rightBoard != null) {
-          for (piece of Teetrys.rightBoard) {
-            piece.draw();
-          }
+        if(Teetrys.player != null) {
+          Teetrys.player.draw([342, 54]);
         }
       }
-    }
+    },
+    backButton: new RectButton(810, 0, 270, 75, "blue", "<- BACK", "60px Comic Sans MS")
   }
 }

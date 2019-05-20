@@ -105,6 +105,7 @@ var Game = {
     location.reload();
   },
   load: function(map) {
+    this.frame = 0;
     this.click.clear();
     this.current = map
     this.current.start();
@@ -114,7 +115,7 @@ var Game = {
       var link = document.createElement("a");
       link.download = "image.png";
 
-      this.canvas.toBlob(function(blob) {
+      Game.canvas.toBlob(function(blob) {
         link.href = URL.createObjectURL(blob);
         console.log(blob);
         console.log(link.href);

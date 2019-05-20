@@ -6,7 +6,7 @@ class Rectangle {
     this.height = height;
     this.enabled = true;
     if (color == null || !color) {
-      this.color = "rgba(0, 0, 0, 0";
+      this.color = "rgba(0, 0, 0, 0)";
     } else {
       this.color = color;
     }
@@ -18,14 +18,14 @@ class Rectangle {
       return false;
     }
   }
-  intersects(other) {
-    if (this.contains([other.x, other.y]) || this.contains([other.x + other.width, other.y]) ||
-      this.contains([other.x, other.y + other.height]) ||
-      this.contains([other.x + other.width, other.y + other.height])) {
+  intersects(rect) {
+    if (this.contains([rect.x, rect.y]) || this.contains([rect.x + rect.width, rect.y]) ||
+      this.contains([rect.x, rect.y + rect.height]) ||
+      this.contains([rect.x + rect.width, rect.y + rect.height])) {
       return true;
-    } else if (other.contains([this.x, this.y]) || other.contains([this.x + this.width, this.y]) ||
-      other.contains([this.x, this.y + this.height]) ||
-      other.contains([this.x + this.width, this.y + this.height])) {
+    } else if (rect.contains([this.x, this.y]) || rect.contains([this.x + this.width, this.y]) ||
+      rect.contains([this.x, this.y + this.height]) ||
+      rect.contains([this.x + this.width, this.y + this.height])) {
       return true;
     } else {
       return false;
