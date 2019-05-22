@@ -594,7 +594,7 @@ var Teetrys = {
 
       if(this.collide()){
         this.arena.forEach((row) => row.fill(0));
-        this.score = 0;
+        this.points = 0;
       }
     }
   },
