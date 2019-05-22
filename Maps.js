@@ -403,6 +403,7 @@ var Teetrys = {
     this.sqsize = 33
     this.points = 0;
     this.dropC = 0;
+    this.rotate = false;
     this.colors = [
       "rgba(0, 15, 31, 0)",
       "#00FFFF",
@@ -553,7 +554,7 @@ var Teetrys = {
       return false;
     }
     this.sweep = function(){
-      var rows = 1;
+      var rows = 0;
       outer: for (var y = this.arena.length - 1; y > 0; y--){
         for (var x = 0; x < this.arena[y].length; x++){
           if(this.arena[y][x] == 0){
@@ -564,8 +565,26 @@ var Teetrys = {
         this.arena.unshift(row);
         y++;
 
-        this.points += rows * 100;
-        rows *= 2;
+        rows++;
+      }
+      switch(rows){
+        case 0:
+          return;
+          break;
+        case 1:
+          this.points += 40;
+          break;
+        case 2:
+          this.points += 100;
+          break;
+        case 3:
+          this.points += 300;
+          break;
+        case 4:
+          this.points += 1200;
+          break;
+        default:
+          throw new Error("Check");
       }
     }
     this.spawn = function(){
@@ -581,12 +600,6 @@ var Teetrys = {
   },
   update: function() {
     if (!Game.click.isNull()) {
-      /*if (this.elements["restart"].enabled) {
-        if (this.elements["restart"].container.contains(Game.click)) {
-          console.log("Moving to Hopper");
-          Game.load(Hopper);
-        }
-      }*/
       if (this.elements["backButton"].container.contains(Game.click)) {
         console.log("Moving to Game Selection");
         Game.load(GameSelection);
@@ -607,8 +620,8 @@ var Teetrys = {
           if(Game.frame % 5 == 0) {
             if(Game.keys[65]) this.player.move(-1);
             if(Game.keys[68]) this.player.move(1);
-            if(Game.keys[81]) this.player.rotate(-1);
-            if(Game.keys[69]) this.player.rotate(1);
+            if(Game.keys[87] && !this.rotate) this.player.rotate(-1); this.rotate = true;
+            if(!Game.keys[87]) this.rotate = false;
           }
         }
       }
@@ -648,6 +661,26 @@ var Teetrys = {
         }
       }
     },
-    backButton: new RectButton(810, 0, 270, 75, "blue", "<- BACK", "60px Comic Sans MS")
+    backButton: new RectButton(810, 0, 270, 75, "blue", "<- BACK", "60px Comic Sans MS"),
+    instructions: {
+      enabled: true,
+      draw: function(){
+        Game.context.font = "30px Comic Sans MS";
+        Game.context.textAlign = "center";
+        Game.context.fillStyle = "black";
+        Game.context.fillText("INSTRUCTIONS:", 169, 314);
+        Game.context.fillText("Stack the pieces to", 169, 349);
+        Game.context.fillText("clear the rows", 169, 384);
+        Game.context.fillText("1 line: 40 points", 169, 419);
+        Game.context.fillText("2 lines: 100 points", 169, 454);
+        Game.context.fillText("3 lines: 300 points", 169, 489);
+        Game.context.fillText("4 lines: 1200 points", 169, 524);
+        Game.context.fillText("CONTROLS", 913, 314);
+        Game.context.fillText("W: Rotate piece left", 913, 349);
+        Game.context.fillText("A: Move piece left", 913, 384);
+        Game.context.fillText("D: Move piece right", 913, 419);
+        Game.context.fillText("S: Drop piece", 913, 454);
+      }
+    }
   }
 }

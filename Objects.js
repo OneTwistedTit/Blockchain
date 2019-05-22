@@ -50,14 +50,14 @@ class Text {
       this.align = align;
     }
     if (color == null || !color) {
-      this.color = "rgba(0, 0, 0, 1)";
+      this.color = "black";
     } else {
       this.color = color;
     }
   }
   draw() {
     Game.context.font = this.font;
-    Game.context.textAlign = this.align
+    Game.context.textAlign = this.align;
     Game.context.fillStyle = this.color;
     Game.context.fillText(this.value, this.x, this.y);
   }
